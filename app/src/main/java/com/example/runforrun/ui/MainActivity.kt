@@ -1,4 +1,4 @@
-package com.example.runforrun
+package com.example.runforrun.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
