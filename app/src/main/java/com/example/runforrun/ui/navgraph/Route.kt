@@ -1,4 +1,4 @@
-package com.example.runforrun.ui.nav
+package com.example.runforrun.ui.navgraph
 
 sealed class Route(val route: String) {
 

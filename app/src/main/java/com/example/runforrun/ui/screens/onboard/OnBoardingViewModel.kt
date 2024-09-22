@@ -8,4 +8,8 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
 
 ) : ViewModel() {
+
+    fun onEvent(event: OnBoardingScreenEvent) {
+
+    }
 }
