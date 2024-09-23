@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun OnBoardingScreen(
-    event: (OnBoardingScreenEvent) -> Unit
+
 ) {
+
 }
