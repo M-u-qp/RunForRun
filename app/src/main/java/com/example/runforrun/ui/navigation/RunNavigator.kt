@@ -84,7 +84,9 @@ fun RunNavigator() {
         ) {
             composable(route = Route.HomeScreen.route) {
                 val viewModel: HomeViewModel = hiltViewModel()
-                HomeScreen()
+                HomeScreen(
+                    navigateToOnBoarding = { navController.navigate(Route.AppStartNavigation.route) }
+                )
             }
             composable(route = Route.ProfileScreen.route) {
                 val viewModel: ProfileViewModel = hiltViewModel()

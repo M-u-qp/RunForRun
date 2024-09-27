@@ -28,7 +28,10 @@ fun NavGraph(
                 route = Route.OnBoardingScreen.route
             ) {
                 val viewModel: OnBoardingViewModel = hiltViewModel()
-                OnBoardingScreen()
+                OnBoardingScreen(
+                    onBoardingScreenEvent = viewModel,
+                    navigateToHome = { navController.navigate(Route.RunNavigation.route) }
+                )
             }
         }
         navigation(

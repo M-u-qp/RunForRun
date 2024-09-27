@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RunForRun</string>
+    
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="run_together">Давай побегаем вместе.</string>
+    <string name="name">Имя</string>
+    <string name="weight">Вес</string>
+    <string name="weekly_goal">Недельная цель</string>
 </resources>
