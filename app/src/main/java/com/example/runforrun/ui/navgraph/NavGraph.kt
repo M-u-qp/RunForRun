@@ -36,10 +36,10 @@ fun NavGraph(
         }
         navigation(
             route = Route.RunNavigation.route,
-            startDestination = Route.RunNavigationScreen.route
+            startDestination = Route.StartRunNavigator.route
         ) {
             composable(
-                route = Route.RunNavigationScreen.route
+                route = Route.StartRunNavigator.route
             ) {
                 RunNavigator()
             }

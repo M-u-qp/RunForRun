@@ -35,12 +35,13 @@ class OnBoardingViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    val doesUserExist = userRepository.doesUserExist
+     val doesUserExist = userRepository.doesUserExist
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
             null
         )
+
     private fun User.isUserValid(): Boolean {
         return name.isNotBlank() && weight > 0
     }

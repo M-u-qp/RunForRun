@@ -7,5 +7,5 @@ sealed class Route(val route: String) {
     data object AppStartNavigation : Route(route = "appStartNavigation")
     data object ProfileScreen : Route(route = "profileScreen")
     data object RunNavigation : Route(route = "runNavigation")
-    data object RunNavigationScreen : Route(route = "runNavigationScreen")
+    data object StartRunNavigator : Route(route = "startRunNavigator")
 }
