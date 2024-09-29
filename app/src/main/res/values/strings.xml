@@ -2,8 +2,12 @@
     <string name="app_name">RunForRun</string>
     
     <string name="welcome">Добро пожаловать!</string>
+    <string name="hi">Привет</string>
     <string name="run_together">Давай побегаем вместе.</string>
     <string name="name">Имя</string>
     <string name="weight">Вес</string>
-    <string name="weekly_goal">Недельная цель</string>
+    <string name="weekly_goal">Еженедельная цель</string>
+    <string name="km">км</string>
+    <string name="passed">пройдено</string>
+    <string name="is_left">осталось</string>
 </resources>

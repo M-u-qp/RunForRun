@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import com.example.runforrun.R
@@ -52,11 +51,9 @@ fun OnBoardingBottomItem(
                 )
             ) {
                 Icon(
-                    bitmap = ImageBitmap.imageResource(id = R.drawable.run),
+                    bitmap = ImageBitmap.imageResource(id = R.drawable.backward),
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(32.dp)
-                        .graphicsLayer(scaleX = -1f)
+                    modifier = Modifier.size(32.dp)
                 )
             }
         }
@@ -77,7 +74,7 @@ fun OnBoardingBottomItem(
                 )
             ) {
                 Icon(
-                    bitmap = ImageBitmap.imageResource(R.drawable.run),
+                    bitmap = ImageBitmap.imageResource(R.drawable.forward),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(32.dp)

@@ -29,8 +29,8 @@ import com.example.runforrun.ui.screens.profile.ProfileViewModel
 fun RunNavigator() {
     val bottomNavigationItems = remember {
         listOf(
-            BottomNavigationItem(icon = R.drawable.ic_launcher_foreground, text = "Дом"),
-            BottomNavigationItem(icon = R.drawable.ic_launcher_foreground, text = "Профиль")
+            BottomNavigationItem(icon = R.drawable.home, text = "Дом"),
+            BottomNavigationItem(icon = R.drawable.profile, text = "Профиль")
         )
     }
     val navController = rememberNavController()

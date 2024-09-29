@@ -15,8 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import com.example.runforrun.R
 
@@ -41,7 +42,7 @@ fun RunBottomNavigation(
                         horizontalAlignment = CenterHorizontally
                     ) {
                         Icon(
-                            painter = painterResource(id = item.icon),
+                            bitmap = ImageBitmap.imageResource(id = item.icon),
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.height(3.dp))
