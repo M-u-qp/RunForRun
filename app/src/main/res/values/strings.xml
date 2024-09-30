@@ -8,6 +8,11 @@
     <string name="weight">Вес</string>
     <string name="weekly_goal">Еженедельная цель</string>
     <string name="km">км</string>
+    <string name="kcal">ккал</string>
+    <string name="km_hr">км/ч</string>
     <string name="passed">пройдено</string>
     <string name="is_left">осталось</string>
+    <string name="all">Все</string>
+    <string name="recent_activity">Недавняя активность</string>
+    <string name="dont_have_records">У вас пока нету записей.</string>
 </resources>

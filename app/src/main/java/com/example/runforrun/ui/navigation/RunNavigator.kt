@@ -24,6 +24,7 @@ import com.example.runforrun.ui.screens.home.HomeScreen
 import com.example.runforrun.ui.screens.home.HomeViewModel
 import com.example.runforrun.ui.screens.profile.ProfileScreen
 import com.example.runforrun.ui.screens.profile.ProfileViewModel
+import com.example.runforrun.ui.screens.run.RunScreen
 
 @Composable
 fun RunNavigator() {
@@ -84,11 +85,16 @@ fun RunNavigator() {
         ) {
             composable(route = Route.HomeScreen.route) {
                 val viewModel: HomeViewModel = hiltViewModel()
-                HomeScreen()
+                HomeScreen(
+                    navigateToRun = { navController.navigate(Route.RunScreen.route) }
+                )
             }
             composable(route = Route.ProfileScreen.route) {
                 val viewModel: ProfileViewModel = hiltViewModel()
                 ProfileScreen()
+            }
+            composable(route = Route.RunScreen.route) {
+                RunScreen()
             }
         }
     }
