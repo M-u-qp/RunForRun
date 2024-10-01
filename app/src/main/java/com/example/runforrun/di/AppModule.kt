@@ -8,74 +8,105 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
+import com.example.runforrun.background.BackgroundTrackingImpl
 import com.example.runforrun.common.utils.LocationUts
 import com.example.runforrun.data.db.RunDatabase
 import com.example.runforrun.data.db.dao.RunDao
-import com.example.runforrun.data.tracking.location.LocationTrackingServiceImpl
-import com.example.runforrun.domain.tracking.location.LocationTrackingService
+import com.example.runforrun.data.tracking.location.LocationMonitoringImpl
+import com.example.runforrun.data.tracking.timer.TimerImpl
+import com.example.runforrun.domain.tracking.background.BackgroundTracking
+import com.example.runforrun.domain.tracking.location.LocationMonitoring
+import com.example.runforrun.domain.tracking.timer.Timer
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+abstract class AppModule {
 
-    private const val USER_PREFERENCES_FILE_NAME = "user_preferences"
+    companion object {
+        private const val USER_PREFERENCES_FILE_NAME = "user_preferences"
 
-    @Provides
-    @Singleton
-    fun providePreferenceDataStore(
-        application: Application
-    ): DataStore<Preferences> =
-        PreferenceDataStoreFactory.create(
-            corruptionHandler = ReplaceFileCorruptionHandler(
-                produceNewData = { emptyPreferences() }
-            ),
-            produceFile = { application.preferencesDataStoreFile(USER_PREFERENCES_FILE_NAME) }
-        )
+        @Provides
+        @Singleton
+        fun providePreferenceDataStore(
+            application: Application
+        ): DataStore<Preferences> =
+            PreferenceDataStoreFactory.create(
+                corruptionHandler = ReplaceFileCorruptionHandler(
+                    produceNewData = { emptyPreferences() }
+                ),
+                produceFile = { application.preferencesDataStoreFile(USER_PREFERENCES_FILE_NAME) }
+            )
 
-    @Singleton
-    @Provides
-    fun provideFusedLocationProviderClient(
-        application: Application
-    ) = LocationServices.getFusedLocationProviderClient(application)
+        @Singleton
+        @Provides
+        fun provideFusedLocationProviderClient(
+            application: Application
+        ) = LocationServices.getFusedLocationProviderClient(application)
 
-    @Singleton
-    @Provides
-    fun provideLocationTrackingService(
-        application: Application,
-        fusedLocationProviderClient: FusedLocationProviderClient
-    ): LocationTrackingService {
-        return LocationTrackingServiceImpl(
-            fusedLocationProviderClient = fusedLocationProviderClient,
-            context = application,
-            locationRequest = LocationUts.locationRequestBuilder.build()
-        )
-    }
+        @Singleton
+        @Provides
+        fun provideLocationMonitoring(
+            application: Application,
+            fusedLocationProviderClient: FusedLocationProviderClient
+        ): LocationMonitoring {
+            return LocationMonitoringImpl(
+                fusedLocationProviderClient = fusedLocationProviderClient,
+                context = application,
+                locationRequest = LocationUts.locationRequestBuilder.build()
+            )
+        }
 
-    @Provides
-    @Singleton
-    fun provideRunDatabase(
-        application: Application
-    ): RunDatabase {
+        @Provides
+        @Singleton
+        fun provideRunDatabase(
+            application: Application
+        ): RunDatabase {
 //        return Room.databaseBuilder(
-        return Room.inMemoryDatabaseBuilder(
-            context = application,
-            klass = RunDatabase::class.java,
+            return Room.inMemoryDatabaseBuilder(
+                context = application,
+                klass = RunDatabase::class.java,
 //            name = RUN_DB_NAME
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+            )
+                .fallbackToDestructiveMigration()
+                .build()
+        }
+
+        @Provides
+        @Singleton
+        fun provideRunDao(
+            runDatabase: RunDatabase
+        ): RunDao = runDatabase.runDao
+
+        @Provides
+        fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+        @Singleton
+        @Provides
+        fun provideCoroutineScope(
+            defaultDispatcher: CoroutineDispatcher
+        ): CoroutineScope = CoroutineScope(SupervisorJob() + defaultDispatcher)
     }
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRunDao(
-        runDatabase: RunDatabase
-    ): RunDao = runDatabase.runDao
+    abstract fun provideBackgroundTracking(
+        backgroundTracking: BackgroundTrackingImpl
+    ): BackgroundTracking
+
+    @Binds
+    @Singleton
+    abstract fun provideTimer(
+        timer: TimerImpl
+    ): Timer
 }

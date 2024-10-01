@@ -2,7 +2,7 @@ package com.example.runforrun.domain.tracking.location
 
 import com.example.runforrun.domain.model.LocationTracking
 
-interface LocationTrackingService {
+interface LocationMonitoring {
     fun setCallback(locationCallback: LocationCallback)
     fun removeCallback()
     interface LocationCallback {

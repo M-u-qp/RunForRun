@@ -5,7 +5,7 @@ import com.example.runforrun.domain.model.CurrentRunning
 import com.example.runforrun.domain.model.LocationTracking
 import com.example.runforrun.domain.model.PathPoint
 import com.example.runforrun.domain.tracking.background.BackgroundTracking
-import com.example.runforrun.domain.tracking.location.LocationTrackingService
+import com.example.runforrun.domain.tracking.location.LocationMonitoring
 import com.example.runforrun.domain.tracking.timer.Timer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 @Singleton
 class Tracking @Inject constructor(
-    private val locationTrackingService: LocationTrackingService,
+    private val locationMonitoring: LocationMonitoring,
     private val timer: Timer,
     private val backgroundTracking: BackgroundTracking
 ) {
@@ -36,7 +36,7 @@ class Tracking @Inject constructor(
         _trackingDuration.update { timeElapsed }
     }
 
-    private val locationCallback = object : LocationTrackingService.LocationCallback {
+    private val locationCallback = object : LocationMonitoring.LocationCallback {
         override fun locationUpdate(results: List<LocationTracking>) {
             if (tracking) {
                 results.forEach { i ->
@@ -88,7 +88,7 @@ class Tracking @Inject constructor(
         }
         tracking = true
         timer.startOrResume(timerCallback)
-        locationTrackingService.setCallback(locationCallback)
+        locationMonitoring.setCallback(locationCallback)
     }
     private fun addEmptyLine() {
         _currentRunning.update {
@@ -99,7 +99,7 @@ class Tracking @Inject constructor(
     }
     fun pauseTracking() {
         tracking = false
-        locationTrackingService.removeCallback()
+        locationMonitoring.removeCallback()
         timer.pause()
         addEmptyLine()
     }

@@ -93,7 +93,10 @@ fun RunNavigator() {
                 val viewModel: ProfileViewModel = hiltViewModel()
                 ProfileScreen()
             }
-            composable(route = Route.RunScreen.route) {
+            composable(
+                route = Route.RunScreen.route,
+                deepLinks = Route.CurrentRun.deepLinks
+            ) {
                 RunScreen()
             }
         }

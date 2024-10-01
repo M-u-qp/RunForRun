@@ -1,17 +1,26 @@
 package com.example.runforrun.background
 
-import android.content.Context
+import android.app.Application
+import android.content.Intent
+import android.os.Build
 import com.example.runforrun.domain.tracking.background.BackgroundTracking
 import javax.inject.Inject
 
 class BackgroundTrackingImpl @Inject constructor(
-    context: Context
+    private val context: Application
 ) : BackgroundTracking {
     override fun start() {
-        TODO("Not yet implemented")
+        Intent(context, BackgroundTrackingService::class.java).apply {
+            action = BackgroundTrackingService.ACTION_START
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                context.startForegroundService(this)
+            } else {
+                context.startService(this)
+            }
+        }
     }
 
     override fun stop() {
-        TODO("Not yet implemented")
+        Intent(context, BackgroundTrackingService::class.java).apply(context::stopService)
     }
 }
