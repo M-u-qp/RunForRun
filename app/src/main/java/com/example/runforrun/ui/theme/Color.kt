@@ -63,3 +63,5 @@ val dark_shadow = Color(0xFF000000)
 val dark_surfaceTint = Color(0xFFBBBEFA)
 val dark_outlineVariant = Color(0xFF45454E)
 val dark_scrim = Color(0xFF000000)
+
+val green = Color(0xFF31A851)

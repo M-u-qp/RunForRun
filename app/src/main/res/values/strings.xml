@@ -15,4 +15,5 @@
     <string name="all">Все</string>
     <string name="recent_activity">Недавняя активность</string>
     <string name="dont_have_records">У вас пока нету записей.</string>
+    <string name="running_time">Время бега</string>
 </resources>
