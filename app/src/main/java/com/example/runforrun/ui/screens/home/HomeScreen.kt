@@ -39,6 +39,7 @@ fun HomeScreen(
 ) {
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
     val doesUserExist by viewModel.doesUserExist.collectAsStateWithLifecycle()
+    val duration by viewModel.duration.collectAsStateWithLifecycle()
 
     if (doesUserExist == true) {
         Column(
@@ -49,7 +50,8 @@ fun HomeScreen(
                 user = state.user,
                 weeklyGoal = state.user.weeklyGoal,
                 distanceCovered = 0.0f,
-                onWeeklyGoalClick = {/*TODO*/ }
+                onWeeklyGoalClick = navigateToRun,
+                duration = duration
             )
             Row(
                 modifier = Modifier

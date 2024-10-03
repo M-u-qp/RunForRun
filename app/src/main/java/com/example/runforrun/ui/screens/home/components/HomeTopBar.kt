@@ -24,7 +24,8 @@ fun HomeTopBar(
     user: User,
     weeklyGoal: Float,
     onWeeklyGoalClick: () -> Unit,
-    distanceCovered: Float
+    distanceCovered: Float,
+    duration: Long
 ) {
     Box(modifier = modifier.height(IntrinsicSize.Min)) {
         Box(
@@ -41,12 +42,14 @@ fun HomeTopBar(
             Spacer(modifier = Modifier.size(24.dp))
             HomeTopBarHeader(user = user)
             Spacer(modifier = Modifier.size(32.dp))
-            HomeWeeklyGoalCard(
-                modifier = Modifier.offset(y = 24.dp),
-                weeklyGoal = weeklyGoal.roundToInt(),
-                weeklyGoalDone = distanceCovered,
-                onClick = onWeeklyGoalClick
-            )
+            if (duration > 0) {
+                HomeWeeklyGoalCard(
+                    modifier = Modifier.offset(y = 24.dp),
+                    weeklyGoal = weeklyGoal.roundToInt(),
+                    weeklyGoalDone = distanceCovered,
+                    onClick = onWeeklyGoalClick
+                )
+            }
         }
     }
 }

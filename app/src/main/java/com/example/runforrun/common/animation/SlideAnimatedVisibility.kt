@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 object SlideAnimatedVisibility {
-    private const val DOWN_IN_DURATION = 250
-    private const val DOWN_OUT_DURATION = 250
+    const val DOWN_IN_DURATION = 250
+    const val DOWN_OUT_DURATION = 250
 
     @Composable
     fun SlideUp(

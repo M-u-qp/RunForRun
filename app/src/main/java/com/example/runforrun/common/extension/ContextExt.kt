@@ -1,0 +1,41 @@
+package com.example.runforrun.common.extension
+
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
+import androidx.core.content.ContextCompat
+import com.example.runforrun.common.utils.PermissionUts
+
+fun Context.notificationPermission() =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        ContextCompat.checkSelfPermission(
+            this,
+            PermissionUts.notificationPermission
+        ) == PackageManager.PERMISSION_GRANTED
+    } else true
+
+fun Context.locationPermission() =
+    PermissionUts.locationPermissions.all {
+        ContextCompat.checkSelfPermission(
+            this,
+            it
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+fun Context.allPermissions() =
+    PermissionUts.allPermissions.all {
+        ContextCompat.checkSelfPermission(
+            this,
+            it
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+fun Context.appSettings() {
+    Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.fromParts("package", packageName, null)
+    ).also(::startActivity)
+}

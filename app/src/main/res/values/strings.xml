@@ -16,4 +16,10 @@
     <string name="recent_activity">Недавняя активность</string>
     <string name="dont_have_records">У вас пока нету записей.</string>
     <string name="running_time">Время бега</string>
+
+    <string name="permission_required">Требуется разрешение</string>
+    <string name="needed_location_point_permission">
+        Для записи вашего текущего местоположения требуется разрешение на определение местоположения. </string>
+    <string name="grant">Предоставить</string>
+    <string name="deny">Отклонить</string>
 </resources>

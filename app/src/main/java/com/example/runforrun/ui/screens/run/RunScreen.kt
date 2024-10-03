@@ -21,6 +21,7 @@ import com.example.runforrun.common.utils.LocationUts
 import com.example.runforrun.ui.screens.run.components.Map
 import com.example.runforrun.ui.screens.run.components.RunTopBar
 import com.example.runforrun.ui.screens.run.components.RunningStatsCard
+import kotlinx.coroutines.delay
 
 @Composable
 fun RunScreen(
@@ -35,7 +36,12 @@ fun RunScreen(
     val state by viewModel.runStateAndCalories.collectAsStateWithLifecycle()
     val runningDuration by viewModel.runningDuration.collectAsStateWithLifecycle()
     var runFinished by rememberSaveable { mutableStateOf(false) }
-    val showRunningCard by rememberSaveable { mutableStateOf(false) }
+    var showRunningCard by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = Unit) {
+        delay(SlideAnimatedVisibility.DOWN_IN_DURATION + 200L)
+        showRunningCard = true
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Map(

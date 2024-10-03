@@ -17,7 +17,7 @@ object LocationUts {
             UPDATE_INTERVAL
         )
 
-    private const val ENABLE_REQUEST = 1111
+     const val ENABLE_REQUEST = 1111
 
     fun requestLocationSetting(activity: Activity) {
         val locationRequest = locationRequestBuilder.build()
