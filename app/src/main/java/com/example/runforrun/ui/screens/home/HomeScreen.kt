@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +36,7 @@ import com.example.runforrun.ui.screens.home.components.RecentRunListActivity
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToRun: () -> Unit,
+    navigateToRun: () -> Unit
 ) {
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
     val doesUserExist by viewModel.doesUserExist.collectAsStateWithLifecycle()
@@ -82,7 +83,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .weight(1f)
                     .verticalScroll(state = rememberScrollState())
-                    .padding()
+                    .padding(bottom = compositionLocalOf { 0.dp }.current)
             ) {
                 if (state.runList.isEmpty()) {
                     EmptyRunList()

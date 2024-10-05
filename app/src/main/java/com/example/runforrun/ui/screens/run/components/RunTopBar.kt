@@ -3,7 +3,8 @@ package com.example.runforrun.ui.screens.run.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.IconButton
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -25,7 +26,7 @@ fun RunTopBar(
             .size(32.dp)
             .shadow(
                 elevation = 4.dp,
-                shape = MaterialTheme.shapes.medium,
+                shape = CircleShape,
                 clip = true
             )
             .background(color = MaterialTheme.colorScheme.surface)

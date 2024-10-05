@@ -1,6 +1,5 @@
 package com.example.runforrun.ui.screens.run.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -32,7 +30,7 @@ fun RunningStatsItem(
             contentDescription = null,
             modifier = Modifier
                 .padding(top = 4.dp)
-                .size(20.dp)
+                .size(26.dp)
         )
         Spacer(modifier = Modifier.size(12.dp))
         Column(
@@ -48,7 +46,7 @@ fun RunningStatsItem(
             )
             Text(
                 text = unit,
-                style = MaterialTheme.typography.labelSmall.copy(
+                style = MaterialTheme.typography.bodyLarge.copy(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )

@@ -43,8 +43,9 @@ class Tracking @Inject constructor(
                     addPathPoints(i)
                     Timber.d(
                         "Новая точка местоположения: " +
-                                "Долгота: ${i.location.longitude}" +
-                                "Широта: ${i.location.latitude}"
+                                "Широта: ${i.location.latitude}" +
+                                " Долгота: ${i.location.longitude}"
+
                     )
                 }
             }
@@ -55,6 +56,7 @@ class Tracking @Inject constructor(
         _currentRunning.update { state ->
             val pathPoints = state.pathPoints + PathPoint.LocationPoint(info.location)
             state.copy(
+                pathPoints = pathPoints,
                 distance = state.distance.run {
                     var distance = this
                     if (pathPoints.size > 1) {
@@ -73,7 +75,7 @@ class Tracking @Inject constructor(
 
     private fun initialValue() {
         _currentRunning.update { CurrentRunning() }
-        _trackingDuration.update { 0L }
+        _trackingDuration.update { 0 }
     }
 
     private var first = true
@@ -90,6 +92,7 @@ class Tracking @Inject constructor(
         timer.startOrResume(timerCallback)
         locationMonitoring.setCallback(locationCallback)
     }
+
     private fun addEmptyLine() {
         _currentRunning.update {
             it.copy(
@@ -97,12 +100,14 @@ class Tracking @Inject constructor(
             )
         }
     }
+
     fun pauseTracking() {
         tracking = false
         locationMonitoring.removeCallback()
         timer.pause()
         addEmptyLine()
     }
+
     fun stopTracking() {
         pauseTracking()
         backgroundTracking.stop()

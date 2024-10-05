@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -76,13 +77,13 @@ fun RunningStatsCard(
                             .size(40.dp)
                             .background(
                                 color = MaterialTheme.colorScheme.error,
-                                shape = MaterialTheme.shapes.medium
+                                shape = CircleShape
                             )
                     ) {
                         Icon(
                             bitmap = ImageBitmap.imageResource(id = R.drawable.finish),
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp),
+                            modifier = Modifier.size(32.dp),
                             tint = MaterialTheme.colorScheme.onError
                         )
                     }
@@ -94,7 +95,7 @@ fun RunningStatsCard(
                         .size(40.dp)
                         .background(
                             color = MaterialTheme.colorScheme.primary,
-                            shape = MaterialTheme.shapes.medium
+                            shape = CircleShape
                         )
                 ) {
                     Icon(
@@ -102,7 +103,7 @@ fun RunningStatsCard(
                             id = if (state.currentRunning.tracking) R.drawable.pause else R.drawable.play
                         ),
                         contentDescription = null,
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(32.dp),
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }

@@ -63,7 +63,7 @@ fun RunScreen(
         ) {
             RunningStatsCard(
                 modifier = Modifier
-                    .padding(vertical = 16.dp, horizontal = 24.dp),
+                    .padding(vertical = 10.dp, horizontal = 24.dp),
                 state = state,
                 playOrPauseClick = viewModel::playOrPauseRun,
                 duration = runningDuration,

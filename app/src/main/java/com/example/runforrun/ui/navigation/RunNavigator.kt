@@ -57,7 +57,7 @@ fun RunNavigator() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            if (isBottomBarVisible) {
+            if (isBottomBarVisible ) {
                 RunBottomNavigation(
                     items = bottomNavigationItems,
                     selected = selectedItem,
@@ -75,6 +75,7 @@ fun RunNavigator() {
                         }
                     }
                 )
+
             }
         }
     ) {
@@ -85,23 +86,25 @@ fun RunNavigator() {
             modifier = Modifier.padding(bottom = bottomPadding)
         ) {
             composable(route = Route.HomeScreen.route) {
-                val viewModel: HomeViewModel = hiltViewModel()
+                val homeViewModel: HomeViewModel = hiltViewModel()
                 HomeScreen(
-                    viewModel = viewModel,
+                    viewModel = homeViewModel,
                     navigateToRun = { navController.navigate(Route.RunScreen.route) }
                 )
             }
             composable(route = Route.ProfileScreen.route) {
-                val viewModel: ProfileViewModel = hiltViewModel()
-                ProfileScreen(viewModel = viewModel)
+                val profileViewModel: ProfileViewModel = hiltViewModel()
+                ProfileScreen(
+                    viewModel = profileViewModel
+                )
             }
             composable(
                 route = Route.RunScreen.route,
                 deepLinks = Route.CurrentRun.deepLinks
             ) {
-                val viewModel: RunViewModel = hiltViewModel()
+                val runViewModel: RunViewModel = hiltViewModel()
                 RunScreen(
-                    viewModel = viewModel,
+                    viewModel = runViewModel,
                     navigateUp = { navController.navigateUp() }
                 )
             }

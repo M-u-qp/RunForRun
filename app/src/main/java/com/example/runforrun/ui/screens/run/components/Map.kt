@@ -58,7 +58,7 @@ fun Map(
 ) {
     var size by remember { mutableStateOf(Size(0f, 0f)) }
     var center by remember { mutableStateOf(Offset(0f, 0f)) }
-    var loaded by remember { mutableStateOf(false) }
+    var mapLoaded by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
@@ -69,45 +69,64 @@ fun Map(
                 center = rect.center
             }
     ) {
-        ShowLoading(!loaded)
-        val uiSettings = remember {
-            MapUiSettings(
-                mapToolbarEnabled = false,
-                compassEnabled = true,
-                zoomControlsEnabled = false
-            )
-        }
-        val cameraState = rememberCameraPositionState {}
-        val lastLocationPoint by remember(pathPoints) {
-            derivedStateOf { pathPoints.lastLocationPoint() }
-        }
-        LaunchedEffect(key1 = lastLocationPoint) {
-            lastLocationPoint?.let {
-                cameraState.animate(
-                    CameraUpdateFactory.newCameraPosition(
-                        CameraPosition.fromLatLngZoom(it.location.toLatLng(), 15f)
-                    )
+        ShowMapLoading(!mapLoaded)
+        MapContent(
+            pathPoints = pathPoints,
+            runFinished = runFinished,
+            center = center,
+            size = size,
+            mapLoaded = { mapLoaded = true },
+            snapshot = snapshot
+        )
+    }
+}
+
+@Composable
+private fun MapContent(
+    pathPoints: List<PathPoint>,
+    runFinished: Boolean,
+    center: Offset,
+    size: Size,
+    mapLoaded: () -> Unit,
+    snapshot: (Bitmap) -> Unit
+) {
+    val uiSettings = remember {
+        MapUiSettings(
+            mapToolbarEnabled = false,
+            compassEnabled = true,
+            zoomControlsEnabled = false
+        )
+    }
+    val cameraState = rememberCameraPositionState {}
+    val lastLocationPoint by remember(pathPoints) {
+        derivedStateOf { pathPoints.lastLocationPoint() }
+    }
+    LaunchedEffect(key1 = lastLocationPoint) {
+        lastLocationPoint?.let {
+            cameraState.animate(
+                CameraUpdateFactory.newCameraPosition(
+                    CameraPosition.fromLatLngZoom(it.location.toLatLng(), 15f)
                 )
-            }
-        }
-        GoogleMap(
-            modifier = Modifier.fillMaxSize(),
-            uiSettings = uiSettings,
-            cameraPositionState = cameraState,
-            onMapLoaded = { loaded = true }
-        ) {
-            DrawPathPoints(
-                pathPoints = pathPoints,
-                runFinished = runFinished
-            )
-            TakeScreenShot(
-                take = runFinished,
-                center = center,
-                size = size,
-                pathPoints = pathPoints,
-                snapshot = snapshot
             )
         }
+    }
+    GoogleMap(
+        modifier = Modifier.fillMaxSize(),
+        uiSettings = uiSettings,
+        cameraPositionState = cameraState,
+        onMapLoaded = mapLoaded
+    ) {
+        DrawPathPoints(
+            pathPoints = pathPoints,
+            runFinished = runFinished
+        )
+        TakeScreenShot(
+            take = runFinished,
+            center = center,
+            size = size,
+            pathPoints = pathPoints,
+            snapshot = snapshot
+        )
     }
 }
 
@@ -240,7 +259,7 @@ private fun TakeScreenShot(
 }
 
 @Composable
-private fun ShowLoading(visible: Boolean = false) {
+private fun ShowMapLoading(visible: Boolean = false) {
     AnimatedVisibility(
         modifier = Modifier.fillMaxSize(),
         visible = visible,
