@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -36,19 +38,27 @@ fun HomeWeeklyGoalCard(
     val km = stringResource(id = R.string.km)
 
     ElevatedCard(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+            .offset(y = 30.dp),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
-        onClick = onClick
+        onClick = onClick,
+        shape = RoundedCornerShape(40.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        )
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp)
+            modifier = Modifier.padding(
+                horizontal = 16.dp,
+                vertical = 10.dp
+            )
         ) {
             Text(
                 text = stringResource(id = R.string.weekly_goal),
                 style = MaterialTheme.typography.labelLarge.copy(
-                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold
                 )
             )
@@ -56,18 +66,16 @@ fun HomeWeeklyGoalCard(
             Text(
                 text = "$weeklyGoal $km",
                 style = MaterialTheme.typography.labelLarge.copy(
-                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold
                 ),
                 modifier = Modifier.weight(1f)
             )
             Icon(
-                bitmap = ImageBitmap.imageResource(id = R.drawable.forward),
+                bitmap = ImageBitmap.imageResource(id = R.drawable.run_next),
                 contentDescription = null,
                 modifier = Modifier
                     .size(24.dp)
                     .align(Alignment.CenterVertically),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Column(
@@ -83,7 +91,6 @@ fun HomeWeeklyGoalCard(
                     text = "$weeklyGoalDone $km $passed",
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.bodySmall.copy(
-                        color = MaterialTheme.colorScheme.onSurface
                     )
                 )
                 Text(
@@ -94,7 +101,6 @@ fun HomeWeeklyGoalCard(
                         )
                     } $km $isLeft",
                     style = MaterialTheme.typography.bodySmall.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )
             }
@@ -104,8 +110,8 @@ fun HomeWeeklyGoalCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp),
-                color = MaterialTheme.colorScheme.primary,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                color = MaterialTheme.colorScheme.inversePrimary,
+                trackColor = MaterialTheme.colorScheme.onPrimary,
                 strokeCap = StrokeCap.Round,
             )
         }

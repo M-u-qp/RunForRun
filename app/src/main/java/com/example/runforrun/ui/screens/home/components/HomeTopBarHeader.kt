@@ -1,11 +1,13 @@
 package com.example.runforrun.ui.screens.home.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,66 +39,74 @@ fun HomeTopBarHeader(
     user: User,
     tint: Color = MaterialTheme.colorScheme.onPrimary,
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(color = Color.Transparent),
-        verticalAlignment = Alignment.CenterVertically
+    ElevatedCard(
+        modifier = modifier,
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
+        shape = RoundedCornerShape(bottomStart = 64.dp, bottomEnd = 64.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        )
     ) {
-        AsyncImage(
-            model = user.img,
-            contentDescription = null,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape),
-            fallback = painterResource(
-                id = when (user.gender) {
-                    Gender.MALE -> {
-                        R.drawable.male
-                    }
-
-                    Gender.FEMALE -> {
-                        R.drawable.female
-                    }
-
-                    else -> {
-                        R.drawable.no_male_no_female
-                    }
-                }
-            ),
-            contentScale = ContentScale.Crop,
-            colorFilter = if (user.img == null) {
-                ColorFilter.tint(color = tint)
-            } else {
-                null
-            }
-        )
-        Spacer(modifier = Modifier.size(12.dp))
-        val hi = stringResource(id = R.string.hi)
-        Text(
-            text = buildAnnotatedString {
-                append("$hi, ")
-                withStyle(
-                    style = SpanStyle(fontWeight = FontWeight.SemiBold)
-                ) {
-                    append(user.name)
-                }
-            },
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimary
-            ),
-            modifier = Modifier.weight(1f)
-        )
-
-        IconButton(
-            modifier = Modifier.size(32.dp),
-            onClick = { /*TODO*/ }
+        Row(
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                bitmap = ImageBitmap.imageResource(id = R.drawable.settings),
+            AsyncImage(
+                model = user.img,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape),
+                fallback = painterResource(
+                    id = when (user.gender) {
+                        Gender.MALE -> {
+                            R.drawable.male
+                        }
+
+                        Gender.FEMALE -> {
+                            R.drawable.female
+                        }
+
+                        else -> {
+                            R.drawable.no_male_no_female
+                        }
+                    }
+                ),
+                contentScale = ContentScale.Crop,
+                colorFilter = if (user.img == null) {
+                    ColorFilter.tint(color = tint)
+                } else {
+                    null
+                }
             )
+            Spacer(modifier = Modifier.size(12.dp))
+            val hi = stringResource(id = R.string.hi)
+            Text(
+                text = buildAnnotatedString {
+                    append("$hi, ")
+                    withStyle(
+                        style = SpanStyle(fontWeight = FontWeight.SemiBold)
+                    ) {
+                        append(user.name)
+                    }
+                },
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onPrimary
+                ),
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            IconButton(
+                modifier = Modifier.size(32.dp),
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(
+                    bitmap = ImageBitmap.imageResource(id = R.drawable.settings),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
         }
     }
 }

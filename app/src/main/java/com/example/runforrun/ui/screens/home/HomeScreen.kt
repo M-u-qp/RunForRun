@@ -5,13 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -20,9 +15,6 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -52,8 +44,10 @@ fun HomeScreen(
                 weeklyGoal = state.user.weeklyGoal,
                 distanceCovered = 0.0f,
                 onWeeklyGoalClick = navigateToRun,
-                duration = duration
+                duration = duration,
+                navigateToRun = navigateToRun
             )
+
             Row(
                 modifier = Modifier
                     .background(color = MaterialTheme.colorScheme.surface)
@@ -96,25 +90,25 @@ fun HomeScreen(
                 }
             }
 
-            ElevatedButton(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .zIndex(1f)
-                    .size(70.dp),
-                shape = CircleShape,
-                colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ),
-                elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp),
-                onClick = navigateToRun
-            ) {
-                Icon(
-                    modifier = Modifier.scale(2f),
-                    bitmap = ImageBitmap.imageResource(id = R.drawable.run_next),
-                    contentDescription = null
-                )
-            }
+//            ElevatedButton(
+//                modifier = Modifier
+//                    .align(Alignment.CenterHorizontally)
+//                    .zIndex(1f)
+//                    .size(70.dp),
+//                shape = CircleShape,
+//                colors = ButtonDefaults.elevatedButtonColors(
+//                    containerColor = MaterialTheme.colorScheme.primary,
+//                    contentColor = MaterialTheme.colorScheme.onPrimary
+//                ),
+//                elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp),
+//                onClick = navigateToRun
+//            ) {
+//                Icon(
+//                    modifier = Modifier.scale(2f),
+//                    bitmap = ImageBitmap.imageResource(id = R.drawable.run_next),
+//                    contentDescription = null
+//                )
+//            }
         }
     }
 }
