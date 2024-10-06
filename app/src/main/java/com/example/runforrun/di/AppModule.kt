@@ -11,6 +11,7 @@ import androidx.room.Room
 import com.example.runforrun.background.BackgroundTrackingImpl
 import com.example.runforrun.common.utils.LocationUts
 import com.example.runforrun.data.db.RunDatabase
+import com.example.runforrun.data.db.RunDatabase.Companion.RUN_DB_NAME
 import com.example.runforrun.data.db.dao.RunDao
 import com.example.runforrun.data.tracking.location.LocationMonitoringImpl
 import com.example.runforrun.data.tracking.timer.TimerImpl
@@ -73,11 +74,11 @@ abstract class AppModule {
         fun provideRunDatabase(
             application: Application
         ): RunDatabase {
-//        return Room.databaseBuilder(
-            return Room.inMemoryDatabaseBuilder(
+        return Room.databaseBuilder(
+//            return Room.inMemoryDatabaseBuilder(
                 context = application,
                 klass = RunDatabase::class.java,
-//            name = RUN_DB_NAME
+            name = RUN_DB_NAME
             )
                 .fallbackToDestructiveMigration()
                 .build()

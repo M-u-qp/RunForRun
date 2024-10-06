@@ -40,7 +40,6 @@ fun HomeWeeklyGoalCard(
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp)
             .offset(y = 30.dp),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
         onClick = onClick,

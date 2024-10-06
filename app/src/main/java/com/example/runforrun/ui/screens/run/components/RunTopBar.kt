@@ -23,7 +23,7 @@ fun RunTopBar(
     IconButton(
         onClick = navigateUp,
         modifier = modifier
-            .size(32.dp)
+            .size(40.dp)
             .shadow(
                 elevation = 4.dp,
                 shape = CircleShape,

@@ -34,7 +34,7 @@ class HomeViewModel @Inject constructor(
     )
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState = combine(
-        repository.getRunByDescDate(3),
+        repository.getRunByDescDate(10),
         userRepository.user,
         currentRunningAndCaloriesUseCase(),
         distanceCovered,
