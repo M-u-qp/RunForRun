@@ -17,7 +17,7 @@ import androidx.compose.ui.zIndex
 import com.example.runforrun.R
 
 @Composable
-fun RunButton(
+fun RunningButton(
     modifier: Modifier = Modifier,
     navigateToRun: () -> Unit
 ) {

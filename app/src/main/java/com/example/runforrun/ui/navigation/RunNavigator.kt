@@ -20,6 +20,8 @@ import com.example.runforrun.R
 import com.example.runforrun.ui.navgraph.Route
 import com.example.runforrun.ui.navigation.components.BottomNavigationItem
 import com.example.runforrun.ui.navigation.components.RunBottomNavigation
+import com.example.runforrun.ui.screens.all_runs.AllRunsScreen
+import com.example.runforrun.ui.screens.all_runs.AllRunsViewModel
 import com.example.runforrun.ui.screens.home.HomeScreen
 import com.example.runforrun.ui.screens.home.HomeViewModel
 import com.example.runforrun.ui.screens.profile.ProfileScreen
@@ -57,7 +59,7 @@ fun RunNavigator() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            if (isBottomBarVisible ) {
+            if (isBottomBarVisible) {
                 RunBottomNavigation(
                     items = bottomNavigationItems,
                     selected = selectedItem,
@@ -89,7 +91,8 @@ fun RunNavigator() {
                 val homeViewModel: HomeViewModel = hiltViewModel()
                 HomeScreen(
                     viewModel = homeViewModel,
-                    navigateToRun = { navController.navigate(Route.RunScreen.route) }
+                    navigateToRun = { navController.navigate(Route.RunScreen.route) },
+                    navigateToAllRuns = { navController.navigate(Route.AllRunsScreen.route) }
                 )
             }
             composable(route = Route.ProfileScreen.route) {
@@ -105,6 +108,13 @@ fun RunNavigator() {
                 val runViewModel: RunViewModel = hiltViewModel()
                 RunScreen(
                     viewModel = runViewModel,
+                    navigateUp = { navController.navigateUp() }
+                )
+            }
+            composable(route = Route.AllRunsScreen.route) {
+                val allRunsViewModel: AllRunsViewModel = hiltViewModel()
+                AllRunsScreen(
+                    viewModel = allRunsViewModel,
                     navigateUp = { navController.navigateUp() }
                 )
             }

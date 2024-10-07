@@ -36,7 +36,8 @@ import com.example.runforrun.ui.screens.home.components.RecentRunListActivity
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToRun: () -> Unit
+    navigateToRun: () -> Unit,
+    navigateToAllRuns: () -> Unit
 ) {
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
     val doesUserExist by viewModel.doesUserExist.collectAsStateWithLifecycle()
@@ -87,7 +88,7 @@ fun HomeScreen(
                             )
                         )
                         TextButton(
-                            onClick = {},
+                            onClick = navigateToAllRuns,
                             modifier = Modifier,
                         ) {
                             Text(

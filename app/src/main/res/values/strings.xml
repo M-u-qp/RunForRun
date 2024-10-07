@@ -22,4 +22,7 @@
         Для записи вашего текущего местоположения требуется разрешение на определение местоположения. </string>
     <string name="grant">Предоставить</string>
     <string name="deny">Отклонить</string>
+    
+    <string name="your_activity">Ваша активность</string>
+    <string name="sorting">Сортировать по</string>
 </resources>

@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.runforrun.R
-import com.example.runforrun.common.utils.DateTimeUts
+import com.example.runforrun.common.utils.FormatterUts.getFormattedTime
 import com.example.runforrun.domain.model.CurrentRunningAndCalories
 
 @Composable
@@ -40,12 +40,13 @@ fun RunningStatsCard(
 ) {
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
+        shape = MaterialTheme.shapes.extraLarge
     ) {
         Row(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .padding(top = 24.dp, bottom = 16.dp),
+                .padding(horizontal = 10.dp)
+                .padding(top = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
@@ -60,7 +61,7 @@ fun RunningStatsCard(
                     )
                 )
                 Text(
-                    text = DateTimeUts.getFormattedTime(duration),
+                    text = getFormattedTime(duration),
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onSurface
@@ -114,11 +115,10 @@ fun RunningStatsCard(
         val kmHr = stringResource(id = R.string.km_hr)
         Row(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .padding(bottom = 20.dp)
+                .padding(horizontal = 10.dp)
+                .padding(bottom = 10.dp)
                 .height(IntrinsicSize.Min)
-                .fillMaxWidth()
-                .padding(6.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             RunningStatsItem(

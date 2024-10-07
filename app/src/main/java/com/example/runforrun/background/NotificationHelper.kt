@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.net.toUri
 import com.example.runforrun.R
-import com.example.runforrun.common.utils.DateTimeUts
+import com.example.runforrun.common.utils.FormatterUts.getFormattedTime
 import com.example.runforrun.ui.MainActivity
 import com.example.runforrun.ui.navgraph.Route
 import javax.inject.Inject
@@ -50,7 +50,7 @@ class NotificationHelper @Inject constructor(
 
     fun updateNotification(duration: Long, tracking: Boolean) {
         val notification = notificationBuilder
-            .setContentText(DateTimeUts.getFormattedTime(duration))
+            .setContentText(getFormattedTime(duration))
             .clearActions()
             .addAction(getNotificationAction(tracking))
             .build()

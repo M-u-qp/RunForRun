@@ -58,7 +58,7 @@ fun HomeTopBar(
                     onClick = onWeeklyGoalClick
                 )
             } else {
-                RunButton(
+                RunningButton(
                     modifier = Modifier,
                     navigateToRun = navigateToRun
                 )

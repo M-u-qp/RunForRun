@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.runforrun.data.model.Run
+import com.example.runforrun.ui.components.RunningCard
 
 @Composable
 fun RecentRunListActivity(
@@ -19,7 +20,7 @@ fun RecentRunListActivity(
         Column(
             modifier = modifier
         ) {
-            RunItem(
+            RunningCard(
                 run = run,
                 modifier = Modifier
                     .clickable { onClick(run) }

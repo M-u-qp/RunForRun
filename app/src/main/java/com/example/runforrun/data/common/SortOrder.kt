@@ -8,9 +8,12 @@ enum class SortOrder {
     AVG_SPEED;
 
     override fun toString(): String {
-        return super.toString()
-            .lowercase()
-            .replace('_',' ')
-            .replaceFirstChar { it.uppercase() }
+        return when (this) {
+            DATE -> "Дата"
+            DURATION -> "Продолжительность"
+            DISTANCE -> "Расстояние"
+            CALORIES_BURNED -> "Сожженные калории"
+            AVG_SPEED -> "Средняя скорость"
+        }
     }
 }
