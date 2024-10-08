@@ -29,6 +29,7 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.runforrun.R
+import com.example.runforrun.ui.components.RunningDialog
 import com.example.runforrun.ui.screens.home.components.EmptyRunList
 import com.example.runforrun.ui.screens.home.components.HomeTopBar
 import com.example.runforrun.ui.screens.home.components.RecentRunListActivity
@@ -115,10 +116,17 @@ fun HomeScreen(
                     RecentRunListActivity(
                         modifier = Modifier.padding(horizontal = 24.dp),
                         runList = state.runList,
-                        onClick = {}
+                        showRunDialog = viewModel::showRunDialog
                     )
                 }
             }
+        }
+        state.currentRunDetails?.let { run ->
+            RunningDialog(
+                run = run,
+                dismiss = viewModel::dismissDialog,
+                delete = { viewModel.deleteRun(run) }
+            )
         }
     }
 }

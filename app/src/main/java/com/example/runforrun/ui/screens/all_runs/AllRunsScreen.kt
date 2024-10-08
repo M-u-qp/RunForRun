@@ -16,7 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.runforrun.R
 import com.example.runforrun.ui.screens.all_runs.components.AllRunsTopBar
-import com.example.runforrun.ui.screens.all_runs.components.RunningDialog
+import com.example.runforrun.ui.components.RunningDialog
 import com.example.runforrun.ui.screens.all_runs.components.RunsList
 
 @Composable

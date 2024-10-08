@@ -1,4 +1,4 @@
-package com.example.runforrun.ui.screens.all_runs.components
+package com.example.runforrun.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

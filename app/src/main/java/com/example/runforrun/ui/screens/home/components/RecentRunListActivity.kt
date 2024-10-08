@@ -14,7 +14,7 @@ import com.example.runforrun.ui.components.RunningCard
 fun RecentRunListActivity(
     modifier: Modifier = Modifier,
     runList: List<Run>,
-    onClick: (Run) -> Unit
+    showRunDialog: (Run) -> Unit
 ) {
     runList.forEachIndexed { _, run ->
         Column(
@@ -23,7 +23,7 @@ fun RecentRunListActivity(
             RunningCard(
                 run = run,
                 modifier = Modifier
-                    .clickable { onClick(run) }
+                    .clickable { showRunDialog(run) }
             )
             Spacer(modifier = Modifier.size(8.dp))
         }

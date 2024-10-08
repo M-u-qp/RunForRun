@@ -61,7 +61,7 @@ class HomeViewModel @Inject constructor(
 
     val duration = tracking.trackingDuration
 
-    fun showRun(run: Run) {
+    fun showRunDialog(run: Run) {
         _homeScreenState.update { it.copy(currentRunDetails = run) }
     }
 
@@ -72,7 +72,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun dismissDialog() {
+     fun dismissDialog() {
         _homeScreenState.update { it.copy(currentRunDetails = null) }
     }
 
