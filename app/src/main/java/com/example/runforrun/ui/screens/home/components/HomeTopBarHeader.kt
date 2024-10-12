@@ -16,28 +16,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.example.runforrun.R
-import com.example.runforrun.data.model.Gender
 import com.example.runforrun.data.model.User
+import com.example.runforrun.ui.components.UserProfileImage
 
 @Composable
 fun HomeTopBarHeader(
     modifier: Modifier = Modifier,
-    user: User,
-    tint: Color = MaterialTheme.colorScheme.onPrimary,
+    user: User
 ) {
     ElevatedCard(
         modifier = modifier,
@@ -52,33 +46,12 @@ fun HomeTopBarHeader(
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = user.img,
-                contentDescription = null,
+            UserProfileImage(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape),
-                fallback = painterResource(
-                    id = when (user.gender) {
-                        Gender.MALE -> {
-                            R.drawable.male
-                        }
-
-                        Gender.FEMALE -> {
-                            R.drawable.female
-                        }
-
-                        else -> {
-                            R.drawable.no_male_no_female
-                        }
-                    }
-                ),
-                contentScale = ContentScale.Crop,
-                colorFilter = if (user.img == null) {
-                    ColorFilter.tint(color = tint)
-                } else {
-                    null
-                }
+                imgUri = user.img,
+                gender = user.gender
             )
             Spacer(modifier = Modifier.size(12.dp))
             val hi = stringResource(id = R.string.hi)

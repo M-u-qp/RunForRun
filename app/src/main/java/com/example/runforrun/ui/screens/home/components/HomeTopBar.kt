@@ -40,8 +40,10 @@ fun HomeTopBar(
                     shape = RoundedCornerShape(bottomStart = 64.dp, bottomEnd = 64.dp)
                 )
                 .shadow(
-                    elevation = 2.dp,
-                    shape = RoundedCornerShape(bottomStart = 64.dp, bottomEnd = 64.dp)
+                    elevation = 4.dp,
+                    shape = RoundedCornerShape(bottomStart = 64.dp, bottomEnd = 64.dp),
+                    ambientColor = MaterialTheme.colorScheme.primary,
+                    spotColor = MaterialTheme.colorScheme.primary
                 )
         )
         Column(

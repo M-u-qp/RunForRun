@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RunForRun</string>
-    
+
+    <string name="home">Дом</string>
     <string name="welcome">Добро пожаловать!</string>
     <string name="hi">Привет</string>
     <string name="run_together">Давай побегаем вместе.</string>
@@ -25,4 +26,11 @@
     
     <string name="your_activity">Ваша активность</string>
     <string name="sorting">Сортировать по</string>
+
+    <string name="profile">Профиль</string>
+    <string name="delete_image">Удалить картинку</string>
+    <string name="overall_progress">Общий прогресс</string>
+    <string name="settings">Настройки</string>
+    <string name="achievements">Достижения</string>
+    <string name="our_contacts">Наши контакты</string>
 </resources>

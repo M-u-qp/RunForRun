@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.plus
 import javax.inject.Singleton
 
 @Module
@@ -41,13 +42,15 @@ abstract class AppModule {
         @Provides
         @Singleton
         fun providePreferenceDataStore(
-            application: Application
+            application: Application,
+            scope: CoroutineScope
         ): DataStore<Preferences> =
             PreferenceDataStoreFactory.create(
                 corruptionHandler = ReplaceFileCorruptionHandler(
                     produceNewData = { emptyPreferences() }
                 ),
-                produceFile = { application.preferencesDataStoreFile(USER_PREFERENCES_FILE_NAME) }
+                produceFile = { application.preferencesDataStoreFile(USER_PREFERENCES_FILE_NAME) },
+                scope = scope.plus(Dispatchers.IO + SupervisorJob())
             )
 
         @Singleton

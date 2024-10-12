@@ -10,7 +10,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,10 +33,14 @@ import com.example.runforrun.ui.screens.run.RunViewModel
 
 @Composable
 fun RunNavigator() {
+    val viewModel: RunNavigatorViewModel = hiltViewModel()
+    val doesUserExist by viewModel.doesUserExist.collectAsStateWithLifecycle()
+    val homeText = stringResource(id = R.string.home)
+    val profileText = stringResource(id = R.string.profile)
     val bottomNavigationItems = remember {
         listOf(
-            BottomNavigationItem(icon = R.drawable.home, text = "Дом"),
-            BottomNavigationItem(icon = R.drawable.profile, text = "Профиль")
+            BottomNavigationItem(icon = R.drawable.home, text = homeText),
+            BottomNavigationItem(icon = R.drawable.profile, text = profileText)
         )
     }
     val navController = rememberNavController()
@@ -59,7 +65,7 @@ fun RunNavigator() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            if (isBottomBarVisible) {
+            if (isBottomBarVisible && doesUserExist == true) {
                 RunBottomNavigation(
                     items = bottomNavigationItems,
                     selected = selectedItem,
@@ -77,7 +83,6 @@ fun RunNavigator() {
                         }
                     }
                 )
-
             }
         }
     ) {
@@ -98,7 +103,8 @@ fun RunNavigator() {
             composable(route = Route.ProfileScreen.route) {
                 val profileViewModel: ProfileViewModel = hiltViewModel()
                 ProfileScreen(
-                    viewModel = profileViewModel
+                    viewModel = profileViewModel,
+                    profileEvent = profileViewModel
                 )
             }
             composable(
