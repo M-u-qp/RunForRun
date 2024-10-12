@@ -1,16 +1,25 @@
 package com.example.runforrun.ui.navigation
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -63,10 +72,19 @@ fun RunNavigator() {
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         bottomBar = {
             if (isBottomBarVisible && doesUserExist == true) {
                 RunBottomNavigation(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 5.dp)
+                        .clip(RoundedCornerShape(64.dp))
+                        .border(
+                            width = 1.dp,
+                            shape = RoundedCornerShape(64.dp),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        .fillMaxWidth(),
                     items = bottomNavigationItems,
                     selected = selectedItem,
                     onItemClick = { index ->
@@ -85,44 +103,51 @@ fun RunNavigator() {
                 )
             }
         }
-    ) {
-        val bottomPadding = it.calculateBottomPadding()
-        NavHost(
-            navController = navController,
-            startDestination = Route.HomeScreen.route,
-            modifier = Modifier.padding(bottom = bottomPadding)
+    ) { paddingValues ->
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
         ) {
-            composable(route = Route.HomeScreen.route) {
-                val homeViewModel: HomeViewModel = hiltViewModel()
-                HomeScreen(
-                    viewModel = homeViewModel,
-                    navigateToRun = { navController.navigate(Route.RunScreen.route) },
-                    navigateToAllRuns = { navController.navigate(Route.AllRunsScreen.route) }
-                )
-            }
-            composable(route = Route.ProfileScreen.route) {
-                val profileViewModel: ProfileViewModel = hiltViewModel()
-                ProfileScreen(
-                    viewModel = profileViewModel,
-                    profileEvent = profileViewModel
-                )
-            }
-            composable(
-                route = Route.RunScreen.route,
-                deepLinks = Route.CurrentRun.deepLinks
-            ) {
-                val runViewModel: RunViewModel = hiltViewModel()
-                RunScreen(
-                    viewModel = runViewModel,
-                    navigateUp = { navController.navigateUp() }
-                )
-            }
-            composable(route = Route.AllRunsScreen.route) {
-                val allRunsViewModel: AllRunsViewModel = hiltViewModel()
-                AllRunsScreen(
-                    viewModel = allRunsViewModel,
-                    navigateUp = { navController.navigateUp() }
-                )
+            CompositionLocalProvider(value = compositionLocalOf { 0.dp } provides paddingValues.calculateBottomPadding()) {
+                NavHost(
+                    navController = navController,
+                    startDestination = Route.HomeScreen.route
+                ) {
+                    composable(route = Route.HomeScreen.route) {
+                        val homeViewModel: HomeViewModel = hiltViewModel()
+                        HomeScreen(
+                            viewModel = homeViewModel,
+                            navigateToRun = { navController.navigate(Route.RunScreen.route) },
+                            navigateToAllRuns = { navController.navigate(Route.AllRunsScreen.route) },
+                            paddingValues = paddingValues
+                        )
+                    }
+                    composable(route = Route.ProfileScreen.route) {
+                        val profileViewModel: ProfileViewModel = hiltViewModel()
+                        ProfileScreen(
+                            viewModel = profileViewModel,
+                            profileEvent = profileViewModel,
+                            paddingValues = paddingValues
+                        )
+                    }
+                    composable(
+                        route = Route.RunScreen.route,
+                        deepLinks = Route.CurrentRun.deepLinks
+                    ) {
+                        val runViewModel: RunViewModel = hiltViewModel()
+                        RunScreen(
+                            viewModel = runViewModel,
+                            navigateUp = { navController.navigateUp() }
+                        )
+                    }
+                    composable(route = Route.AllRunsScreen.route) {
+                        val allRunsViewModel: AllRunsViewModel = hiltViewModel()
+                        AllRunsScreen(
+                            viewModel = allRunsViewModel,
+                            navigateUp = { navController.navigateUp() }
+                        )
+                    }
+                }
             }
         }
     }

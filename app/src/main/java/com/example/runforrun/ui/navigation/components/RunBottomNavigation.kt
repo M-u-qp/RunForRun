@@ -3,8 +3,8 @@ package com.example.runforrun.ui.navigation.components
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -23,14 +23,15 @@ import com.example.runforrun.R
 
 @Composable
 fun RunBottomNavigation(
+    modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
     items: List<BottomNavigationItem>,
     selected: Int,
     onItemClick: (Int) -> Unit
 ) {
     NavigationBar(
-    modifier = Modifier.fillMaxWidth(),
-    containerColor = Color.Transparent,
-    tonalElevation = 10.dp
+        modifier = modifier,
+        containerColor = containerColor
     ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
@@ -42,6 +43,7 @@ fun RunBottomNavigation(
                         horizontalAlignment = CenterHorizontally
                     ) {
                         Icon(
+                            modifier = Modifier.size(32.dp),
                             bitmap = ImageBitmap.imageResource(id = item.icon),
                             contentDescription = null
                         )
@@ -59,7 +61,6 @@ fun RunBottomNavigation(
             )
         }
     }
-
 }
 
 data class BottomNavigationItem(

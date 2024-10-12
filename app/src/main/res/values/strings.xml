@@ -33,4 +33,6 @@
     <string name="settings">Настройки</string>
     <string name="achievements">Достижения</string>
     <string name="our_contacts">Наши контакты</string>
+    <string name="personal_characteristics">Характеристики</string>
+    <string name="about_app">О приложении</string>
 </resources>

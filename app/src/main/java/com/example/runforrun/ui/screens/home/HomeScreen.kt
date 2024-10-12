@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +39,8 @@ import com.example.runforrun.ui.screens.home.components.RecentRunListActivity
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToRun: () -> Unit,
-    navigateToAllRuns: () -> Unit
+    navigateToAllRuns: () -> Unit,
+    paddingValues: PaddingValues
 ) {
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
     val doesUserExist by viewModel.doesUserExist.collectAsStateWithLifecycle()
@@ -118,7 +120,8 @@ fun HomeScreen(
                     RecentRunListActivity(
                         modifier = Modifier.padding(horizontal = 24.dp),
                         runList = state.runList,
-                        showRunDialog = viewModel::showRunDialog
+                        showRunDialog = viewModel::showRunDialog,
+                        paddingValues = paddingValues
                     )
                 }
             }

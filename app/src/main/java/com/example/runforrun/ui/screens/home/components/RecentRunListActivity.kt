@@ -2,7 +2,9 @@ package com.example.runforrun.ui.screens.home.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,7 +16,8 @@ import com.example.runforrun.ui.components.RunningCard
 fun RecentRunListActivity(
     modifier: Modifier = Modifier,
     runList: List<Run>,
-    showRunDialog: (Run) -> Unit
+    showRunDialog: (Run) -> Unit,
+    paddingValues: PaddingValues
 ) {
     runList.forEachIndexed { _, run ->
         Column(
@@ -28,4 +31,5 @@ fun RecentRunListActivity(
             Spacer(modifier = Modifier.size(8.dp))
         }
     }
+    Spacer(modifier = Modifier.padding(paddingValues = paddingValues))
 }

@@ -1,7 +1,6 @@
 package com.example.runforrun.ui.screens.profile.components
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -77,7 +75,6 @@ fun ProfileTopBar(
                     profileEvent.changeUserImage(it)
                 } catch (e: SecurityException) {
                     // Обработка исключения, если URI не поддерживает постоянные разрешения
-                    Log.e("ProfileTopBar", "Не удалось взять постоянное разрешение для URI: $it", e)
                     profileEvent.saveImageToLocalStorage(context, it)
                     profileEvent.changeUserImage(it)
                 }

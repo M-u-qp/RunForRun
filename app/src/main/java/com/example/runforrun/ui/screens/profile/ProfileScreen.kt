@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -20,7 +21,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -40,7 +40,8 @@ import com.example.runforrun.ui.screens.profile.components.ProgressCard
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
-    profileEvent: ProfileEvent
+    profileEvent: ProfileEvent,
+    paddingValues: PaddingValues
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -50,10 +51,9 @@ fun ProfileScreen(
             Toast.makeText(context, state.error.toString(), Toast.LENGTH_SHORT).show()
         }
     }
-
-    Column(
-        modifier = Modifier.padding(bottom = compositionLocalOf { 0.dp }.current)
-    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
         Box(modifier = Modifier.height(IntrinsicSize.Min)) {
             Box(
                 modifier = Modifier
@@ -120,6 +120,25 @@ fun ProfileScreen(
                     title = stringResource(id = R.string.our_contacts)
                 )
             }
+            ElevatedCard(
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
+            ) {
+                ProfileSettingsItem(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    image = ImageBitmap.imageResource(id = R.drawable.personal_char),
+                    title = stringResource(id = R.string.personal_characteristics)
+                )
+            }
+            ElevatedCard(
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
+            ) {
+                ProfileSettingsItem(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    image = ImageBitmap.imageResource(id = R.drawable.about),
+                    title = stringResource(id = R.string.about_app)
+                )
+            }
+            Spacer(modifier = Modifier.padding(paddingValues = paddingValues))
         }
     }
 }
