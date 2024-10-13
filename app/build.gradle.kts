@@ -1,9 +1,11 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.jetbrains.kotlin.kapt)
-    alias(libs.plugins.maps.secrets)
+//    alias(libs.plugins.maps.secrets)
 }
 
 android {
@@ -21,6 +23,11 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val properties = Properties().apply {
+            load(project.rootProject.file("local.properties").inputStream())
+        }
+        manifestPlaceholders["mapsApiKey"] = properties.getProperty("MAPS_API_KEY")
     }
 
     buildTypes {
@@ -31,6 +38,8 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
