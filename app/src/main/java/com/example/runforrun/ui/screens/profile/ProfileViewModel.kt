@@ -1,6 +1,5 @@
 package com.example.runforrun.ui.screens.profile
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -50,9 +49,6 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    override fun saveImageToLocalStorage(context: Context, uri: Uri) {
-        userRepository.saveImageToLocalStorage(context, uri)
-    }
     override fun beginEdit() {
         _state.update { it.copy(editMode = true) }
     }

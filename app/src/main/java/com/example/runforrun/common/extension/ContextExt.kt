@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.example.runforrun.common.utils.PermissionUts
 
@@ -25,6 +26,16 @@ fun Context.locationPermission() =
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+
+fun Context.mediaPermission() =
+    PermissionUts.mediaPermissions.all {
+        ContextCompat.checkSelfPermission(
+            this,
+            it
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun Context.allPermissions() =
     PermissionUts.allPermissions.all {
         ContextCompat.checkSelfPermission(

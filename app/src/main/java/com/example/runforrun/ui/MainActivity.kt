@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import com.example.runforrun.common.extension.allPermissions
 import com.example.runforrun.common.extension.appSettings
 import com.example.runforrun.common.extension.locationPermission
+import com.example.runforrun.common.extension.mediaPermission
 import com.example.runforrun.common.utils.PermissionUts
 import com.example.runforrun.ui.components.PermissionDialog
 import com.example.runforrun.ui.navgraph.NavGraph
@@ -29,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -46,35 +48,56 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun PermissionRequest() {
-        var showPermissionReason by rememberSaveable { mutableStateOf(false) }
-        var showReason by rememberSaveable { mutableStateOf(false) }
+        var showLocPermissionReason by rememberSaveable { mutableStateOf(false) }
+        var showAllPermissionReason by rememberSaveable { mutableStateOf(false) }
+        var showMediaPermissionReason by rememberSaveable { mutableStateOf(false) }
         val launcher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestMultiplePermissions(),
             onResult = {
                 it.forEach { (permission, granted) ->
-                    if (!granted && PermissionUts.locationPermissions.contains(permission)) {
-                        showPermissionReason = true
+                    if (!granted) {
+                        if (PermissionUts.locationPermissions.contains(permission)) {
+                            showLocPermissionReason = true
+                        }
+                        if (PermissionUts.mediaPermissions.contains(permission)) {
+                            showMediaPermissionReason = true
+                        }
                     }
                 }
             }
         )
-        if (showPermissionReason) {
+        if (showMediaPermissionReason) {
+            PermissionDialog(
+                dismissClick = {
+                    if (!mediaPermission()) {
+                        finish()
+                    } else {
+                        showMediaPermissionReason = false
+                    }
+                },
+                okClick = {
+                    showMediaPermissionReason = false
+                    launcher.launch(PermissionUts.mediaPermissions)
+                }
+            )
+        }
+        if (showLocPermissionReason) {
             PermissionDialog(
                 dismissClick = {
                     if (!locationPermission()) {
                         finish()
                     } else {
-                        showPermissionReason = false
+                        showLocPermissionReason = false
                     }
                 },
                 okClick = { appSettings() }
             )
         }
-        if (showReason) {
+        if (showAllPermissionReason) {
             PermissionDialog(
                 dismissClick = ::finish,
                 okClick = {
-                    showReason = false
+                    showAllPermissionReason = false
                     launcher.launch(PermissionUts.allPermissions)
                 }
             )
@@ -87,7 +110,14 @@ class MainActivity : ComponentActivity() {
                         it
                     )
                 } ->
-                    showReason = true
+                    showAllPermissionReason = true
+
+                PermissionUts.mediaPermissions.any {
+                    shouldShowRequestPermissionRationale(
+                        it
+                    )
+                } ->
+                    showMediaPermissionReason = true
 
                 else -> {
                     Toast.makeText(

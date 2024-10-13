@@ -67,17 +67,15 @@ fun ProfileTopBar(
         onResult = {
             it?.let {
                 try {
-                    // Проверяем, поддерживает ли URI постоянные разрешения
                     context.contentResolver.takePersistableUriPermission(
                         it,
                         Intent.FLAG_GRANT_READ_URI_PERMISSION
                     )
                     profileEvent.changeUserImage(it)
                 } catch (e: SecurityException) {
-                    // Обработка исключения, если URI не поддерживает постоянные разрешения
-                    profileEvent.saveImageToLocalStorage(context, it)
                     profileEvent.changeUserImage(it)
                 }
+
             }
         }
     )

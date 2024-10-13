@@ -1,9 +1,5 @@
 package com.example.runforrun.data.repository
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -13,8 +9,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.runforrun.data.model.Gender
 import com.example.runforrun.data.model.User
 import kotlinx.coroutines.flow.map
-import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -52,14 +46,5 @@ class UserRepository @Inject constructor(
         it[USER_WEEKLY_GOAL] = user.weeklyGoal
         it[USER_WEIGHT] = user.weight
         it[USER_IMG] = user.img?.toString() ?: ""
-    }
-
-    fun saveImageToLocalStorage(context: Context, uri: Uri) {
-        val inputStream = context.contentResolver.openInputStream(uri)
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-        val file = File(context.filesDir, "profile_image.png")
-        val outputStream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        outputStream.close()
     }
 }
