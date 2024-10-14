@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -16,8 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,9 +50,9 @@ fun ProfileScreen(
             Toast.makeText(context, state.error.toString(), Toast.LENGTH_SHORT).show()
         }
     }
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Box(modifier = Modifier.height(IntrinsicSize.Min)) {
             Box(
                 modifier = Modifier
@@ -91,53 +90,33 @@ fun ProfileScreen(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            ElevatedCard(
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
-            ) {
-                ProfileSettingsItem(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    image = ImageBitmap.imageResource(id = R.drawable.settings),
-                    title = stringResource(id = R.string.settings)
-                )
-            }
-            ElevatedCard(
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
-            ) {
-                ProfileSettingsItem(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    image = ImageBitmap.imageResource(id = R.drawable.achievements),
-                    title = stringResource(id = R.string.achievements)
-                )
-            }
-            ElevatedCard(
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
-            ) {
-                ProfileSettingsItem(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    image = ImageBitmap.imageResource(id = R.drawable.phone),
-                    title = stringResource(id = R.string.our_contacts)
-                )
-            }
-            ElevatedCard(
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
-            ) {
-                ProfileSettingsItem(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    image = ImageBitmap.imageResource(id = R.drawable.personal_char),
-                    title = stringResource(id = R.string.personal_characteristics)
-                )
-            }
-            ElevatedCard(
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
-            ) {
-                ProfileSettingsItem(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    image = ImageBitmap.imageResource(id = R.drawable.about),
-                    title = stringResource(id = R.string.about_app)
-                )
-            }
+            ProfileSettingsItem(
+                modifier = Modifier.fillMaxWidth(),
+                image = ImageBitmap.imageResource(id = R.drawable.personal_char),
+                title = stringResource(id = R.string.personal_characteristics)
+            )
+            ProfileSettingsItem(
+                modifier = Modifier.fillMaxWidth(),
+                image = ImageBitmap.imageResource(id = R.drawable.achievements),
+                title = stringResource(id = R.string.achievements)
+            )
+            ProfileSettingsItem(
+                modifier = Modifier.fillMaxWidth(),
+                image = ImageBitmap.imageResource(id = R.drawable.phone),
+                title = stringResource(id = R.string.our_contacts)
+            )
+            ProfileSettingsItem(
+                modifier = Modifier.fillMaxWidth(),
+                image = ImageBitmap.imageResource(id = R.drawable.settings),
+                title = stringResource(id = R.string.settings)
+            )
+            ProfileSettingsItem(
+                modifier = Modifier.fillMaxWidth(),
+                image = ImageBitmap.imageResource(id = R.drawable.about),
+                title = stringResource(id = R.string.about_app)
+            )
             Spacer(modifier = Modifier.padding(paddingValues = paddingValues))
         }
     }

@@ -1,20 +1,22 @@
 package com.example.runforrun.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -36,14 +38,30 @@ fun RunningCard(
     val kmHr = stringResource(id = R.string.km_hr)
     val kcal = stringResource(id = R.string.kcal)
 
-    ElevatedCard(
-        elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = 4.dp
-        )
+    Box(
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.background,
+                shape = RoundedCornerShape(
+                    bottomStart = 16.dp,
+                    bottomEnd = 16.dp
+                )
+            )
+            .shadow(
+                elevation = 2.dp,
+                shape = RoundedCornerShape(
+                    bottomStart = 16.dp,
+                    bottomEnd = 16.dp
+                ),
+                ambientColor = MaterialTheme.colorScheme.primary,
+                spotColor = MaterialTheme.colorScheme.primary
+            )
     ) {
-        Row(modifier = modifier
-            .fillMaxWidth()
-            .padding(12.dp)) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
             Image(
                 bitmap = run.image.asImageBitmap(),
                 contentDescription = null,

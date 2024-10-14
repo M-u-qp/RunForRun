@@ -166,7 +166,7 @@ fun ProfileTopBar(
                     imgUri = user.img,
                     gender = user.gender,
                     modifier = Modifier
-                        .size(100.dp)
+                        .size(150.dp)
                         .clip(CircleShape)
                 )
                 androidx.compose.animation.AnimatedVisibility(
