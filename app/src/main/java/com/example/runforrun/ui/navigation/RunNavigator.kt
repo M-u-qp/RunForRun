@@ -39,6 +39,8 @@ import com.example.runforrun.ui.screens.profile.ProfileScreen
 import com.example.runforrun.ui.screens.profile.ProfileViewModel
 import com.example.runforrun.ui.screens.run.RunScreen
 import com.example.runforrun.ui.screens.run.RunViewModel
+import com.example.runforrun.ui.screens.statistics.RunningStatisticsScreen
+import com.example.runforrun.ui.screens.statistics.RunningStatisticsViewModel
 
 @Composable
 fun RunNavigator() {
@@ -127,7 +129,8 @@ fun RunNavigator() {
                         ProfileScreen(
                             viewModel = profileViewModel,
                             profileEvent = profileViewModel,
-                            paddingValues = paddingValues
+                            paddingValues = paddingValues,
+                            navigateToRunningStatistics = { navController.navigate(Route.RunningStatisticsScreen.route) }
                         )
                     }
                     composable(
@@ -144,6 +147,13 @@ fun RunNavigator() {
                         val allRunsViewModel: AllRunsViewModel = hiltViewModel()
                         AllRunsScreen(
                             viewModel = allRunsViewModel,
+                            navigateUp = { navController.navigateUp() }
+                        )
+                    }
+                    composable(route = Route.RunningStatisticsScreen.route) {
+                        val runningStatisticsViewModel: RunningStatisticsViewModel = hiltViewModel()
+                        RunningStatisticsScreen(
+                            viewModel = runningStatisticsViewModel,
                             navigateUp = { navController.navigateUp() }
                         )
                     }

@@ -43,7 +43,10 @@ fun HomeWeeklyGoalCard(
             .offset(y = 30.dp),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
         onClick = onClick,
-        shape = RoundedCornerShape(40.dp),
+        shape = RoundedCornerShape(
+            bottomStart = 16.dp,
+            bottomEnd = 16.dp
+        ),
         colors = CardDefaults.elevatedCardColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary

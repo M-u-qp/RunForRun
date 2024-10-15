@@ -22,7 +22,7 @@ room = "2.6.1"
 datstore = "1.1.1"
 accompanist-permissions = "0.31.5-beta"
 timber = "5.0.1"
-vico = "2.0.0-beta.1"
+vico = "2.0.0-alpha.12"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

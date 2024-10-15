@@ -26,7 +26,7 @@ class Repository @Inject constructor(
         }
     }
 
-    suspend fun getRunStats(fromDate: Date?, toDate: Date?) = runDao.getRunStats(fromDate, toDate)
+    suspend fun getRunningStatistics(fromDate: Date?, toDate: Date?) = runDao.getRunStats(fromDate, toDate)
     fun getRunByDescDate(limit: Int) = runDao.getRunByDescDate(limit)
 
     fun getTotalDistance(fromDate: Date? = null, toDate: Date? = null): Flow<Long> =

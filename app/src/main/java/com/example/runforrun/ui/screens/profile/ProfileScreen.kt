@@ -2,6 +2,7 @@ package com.example.runforrun.ui.screens.profile
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,8 @@ import com.example.runforrun.ui.screens.profile.components.ProgressCard
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     profileEvent: ProfileEvent,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navigateToRunningStatistics: () -> Unit
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -93,7 +95,9 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             ProfileSettingsItem(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navigateToRunningStatistics() },
                 image = ImageBitmap.imageResource(id = R.drawable.personal_char),
                 title = stringResource(id = R.string.personal_characteristics)
             )

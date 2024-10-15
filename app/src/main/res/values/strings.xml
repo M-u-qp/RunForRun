@@ -11,6 +11,7 @@
     <string name="km">км</string>
     <string name="kcal">ккал</string>
     <string name="km_hr">км/ч</string>
+    <string name="min">мин</string>
     <string name="passed">пройдено</string>
     <string name="is_left">осталось</string>
     <string name="all">Все</string>
@@ -35,4 +36,7 @@
     <string name="our_contacts">Наши контакты</string>
     <string name="personal_characteristics">Характеристики</string>
     <string name="about_app">О приложении</string>
+
+    <string name="weekly_report">Еженедельный отчет</string>
+    <string name="statistics">Статистика</string>
 </resources>
