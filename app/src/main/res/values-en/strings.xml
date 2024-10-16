@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">RunForRun</string>
+
+    <string name="home">Home</string>
+    <string name="welcome">Welcome!</string>
+    <string name="hi">Hi</string>
+    <string name="run_together">Lets run together.</string>
+    <string name="name">Name</string>
+    <string name="weight">Weight</string>
+    <string name="weekly_goal">Weekly goal</string>
+    <string name="km">km</string>
+    <string name="kcal">kcal</string>
+    <string name="km_hr">km/hr</string>
+    <string name="min">min</string>
+    <string name="passed">passed</string>
+    <string name="is_left">is left</string>
+    <string name="all">All</string>
+    <string name="recent_activity">Recent activity</string>
+    <string name="dont_have_records">You dont have any records yet.</string>
+    <string name="running_time">Running time</string>
+
+    <string name="permission_required">Permission required</string>
+    <string name="needed_location_point_permission">
+        Location permission is required to record your current location. </string>
+    <string name="grant">Grant</string>
+    <string name="deny">Deny</string>
+
+    <string name="your_activity">Your activity</string>
+    <string name="sorting">Sort by</string>
+
+    <string name="profile">Profile</string>
+    <string name="delete_image">Delete image</string>
+    <string name="overall_progress">Overall progress</string>
+    <string name="settings">Settings</string>
+    <string name="achievements">Achievements</string>
+    <string name="our_contacts">Our contacts</string>
+    <string name="personal_characteristics">Characteristics</string>
+    <string name="about_app">About</string>
+
+    <string name="weekly_report">Weekly report</string>
+    <string name="statistics">Statistics</string>
+    <string name="select_language">Select language</string>
+
+</resources>

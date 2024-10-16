@@ -39,6 +39,8 @@ import com.example.runforrun.ui.screens.profile.ProfileScreen
 import com.example.runforrun.ui.screens.profile.ProfileViewModel
 import com.example.runforrun.ui.screens.run.RunScreen
 import com.example.runforrun.ui.screens.run.RunViewModel
+import com.example.runforrun.ui.screens.settings.SettingsScreen
+import com.example.runforrun.ui.screens.settings.SettingsViewModel
 import com.example.runforrun.ui.screens.statistics.RunningStatisticsScreen
 import com.example.runforrun.ui.screens.statistics.RunningStatisticsViewModel
 
@@ -121,6 +123,7 @@ fun RunNavigator() {
                             viewModel = homeViewModel,
                             navigateToRun = { navController.navigate(Route.RunScreen.route) },
                             navigateToAllRuns = { navController.navigate(Route.AllRunsScreen.route) },
+                            navigateToSettings = { navController.navigate(Route.SettingsScreen.route) },
                             paddingValues = paddingValues
                         )
                     }
@@ -130,7 +133,8 @@ fun RunNavigator() {
                             viewModel = profileViewModel,
                             profileEvent = profileViewModel,
                             paddingValues = paddingValues,
-                            navigateToRunningStatistics = { navController.navigate(Route.RunningStatisticsScreen.route) }
+                            navigateToRunningStatistics = { navController.navigate(Route.RunningStatisticsScreen.route) },
+                            navigateToSettings = { navController.navigate(Route.SettingsScreen.route) }
                         )
                     }
                     composable(
@@ -154,6 +158,13 @@ fun RunNavigator() {
                         val runningStatisticsViewModel: RunningStatisticsViewModel = hiltViewModel()
                         RunningStatisticsScreen(
                             viewModel = runningStatisticsViewModel,
+                            navigateUp = { navController.navigateUp() }
+                        )
+                    }
+                    composable(route = Route.SettingsScreen.route) {
+                        val settingsViewModel: SettingsViewModel = hiltViewModel()
+                        SettingsScreen(
+                            viewModel = settingsViewModel,
                             navigateUp = { navController.navigateUp() }
                         )
                     }

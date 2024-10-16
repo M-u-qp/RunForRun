@@ -42,10 +42,11 @@ fun AllRunsScreen(
                 text = stringResource(id = R.string.your_activity),
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.scrim
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             )
             RunsList(
+                modifier = Modifier.padding(horizontal = 20.dp),
                 runs = runs,
                 onClick = viewModel::setDialog
             )

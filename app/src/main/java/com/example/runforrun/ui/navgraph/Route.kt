@@ -13,6 +13,7 @@ sealed class Route(val route: String) {
     data object RunScreen : Route(route = "runScreen")
     data object AllRunsScreen : Route(route = "allRunsScreen")
     data object RunningStatisticsScreen : Route(route = "runningStatisticsScreen")
+    data object SettingsScreen : Route(route = "settingsScreen")
 
     data object CurrentRun : Route("runScreen") {
         val currentRunUri = "https://runforrun.example.com/$route"

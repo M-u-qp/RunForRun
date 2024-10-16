@@ -31,7 +31,8 @@ import com.example.runforrun.ui.components.UserProfileImage
 @Composable
 fun HomeTopBarHeader(
     modifier: Modifier = Modifier,
-    user: User
+    user: User,
+    navigateToSettings: () -> Unit
 ) {
     ElevatedCard(
         modifier = modifier,
@@ -72,7 +73,7 @@ fun HomeTopBarHeader(
             Spacer(modifier = Modifier.size(16.dp))
             IconButton(
                 modifier = Modifier.size(32.dp),
-                onClick = { /*TODO*/ }
+                onClick = { navigateToSettings() }
             ) {
                 Icon(
                     bitmap = ImageBitmap.imageResource(id = R.drawable.settings),

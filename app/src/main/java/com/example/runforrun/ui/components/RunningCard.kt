@@ -58,9 +58,9 @@ fun RunningCard(
             )
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
+                .padding(8.dp)
                 .fillMaxWidth()
-                .padding(12.dp)
         ) {
             Image(
                 bitmap = run.image.asImageBitmap(),

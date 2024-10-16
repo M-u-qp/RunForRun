@@ -27,7 +27,8 @@ fun HomeTopBar(
     onWeeklyGoalClick: () -> Unit,
     distanceCovered: Float,
     duration: Long,
-    navigateToRun: () -> Unit
+    navigateToRun: () -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     Box(
         modifier = modifier.height(IntrinsicSize.Min),
@@ -50,7 +51,10 @@ fun HomeTopBar(
             modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HomeTopBarHeader(user = user)
+            HomeTopBarHeader(
+                user = user,
+                navigateToSettings = navigateToSettings
+            )
             Spacer(modifier = Modifier.size(32.dp))
             if (duration > 0) {
                 HomeWeeklyGoalCard(

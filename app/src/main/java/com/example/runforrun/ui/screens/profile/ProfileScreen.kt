@@ -42,7 +42,8 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     profileEvent: ProfileEvent,
     paddingValues: PaddingValues,
-    navigateToRunningStatistics: () -> Unit
+    navigateToRunningStatistics: () -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -98,6 +99,11 @@ fun ProfileScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { navigateToRunningStatistics() },
+                image = ImageBitmap.imageResource(id = R.drawable.chart),
+                title = stringResource(id = R.string.statistics)
+            )
+            ProfileSettingsItem(
+                modifier = Modifier.fillMaxWidth(),
                 image = ImageBitmap.imageResource(id = R.drawable.personal_char),
                 title = stringResource(id = R.string.personal_characteristics)
             )
@@ -112,7 +118,9 @@ fun ProfileScreen(
                 title = stringResource(id = R.string.our_contacts)
             )
             ProfileSettingsItem(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navigateToSettings() },
                 image = ImageBitmap.imageResource(id = R.drawable.settings),
                 title = stringResource(id = R.string.settings)
             )

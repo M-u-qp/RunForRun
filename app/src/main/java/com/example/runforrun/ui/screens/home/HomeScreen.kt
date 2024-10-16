@@ -40,6 +40,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToRun: () -> Unit,
     navigateToAllRuns: () -> Unit,
+    navigateToSettings: () -> Unit,
     paddingValues: PaddingValues
 ) {
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
@@ -78,7 +79,8 @@ fun HomeScreen(
                         distanceCovered = 0.0f,
                         onWeeklyGoalClick = navigateToRun,
                         duration = duration,
-                        navigateToRun = navigateToRun
+                        navigateToRun = navigateToRun,
+                        navigateToSettings = navigateToSettings
                     )
                     Spacer(modifier = Modifier.size(24.dp))
                     Row(
