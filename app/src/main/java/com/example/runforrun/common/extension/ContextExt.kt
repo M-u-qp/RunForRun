@@ -9,6 +9,7 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.example.runforrun.common.utils.PermissionUts
+import java.util.Locale
 
 fun Context.notificationPermission() =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -49,4 +50,14 @@ fun Context.appSettings() {
         Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
         Uri.fromParts("package", packageName, null)
     ).also(::startActivity)
+}
+
+fun Context.setAppLocale(language: String){
+    val locale = Locale(language)
+    Locale.setDefault(locale)
+    val config = resources.configuration
+    config.setLocale(locale)
+    config.setLayoutDirection(locale)
+    createConfigurationContext(config)
+    resources.updateConfiguration(config, resources.displayMetrics)
 }

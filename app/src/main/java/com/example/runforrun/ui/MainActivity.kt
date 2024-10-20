@@ -1,5 +1,6 @@
 package com.example.runforrun.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -21,18 +22,27 @@ import com.example.runforrun.common.extension.allPermissions
 import com.example.runforrun.common.extension.appSettings
 import com.example.runforrun.common.extension.locationPermission
 import com.example.runforrun.common.extension.mediaPermission
+import com.example.runforrun.common.extension.setAppLocale
 import com.example.runforrun.common.utils.PermissionUts
+import com.example.runforrun.data.repository.SettingsRepository.Companion.RUSSIAN
+import com.example.runforrun.data.repository.SettingsRepository.Companion.SELECTED_LANGUAGE
 import com.example.runforrun.ui.components.PermissionDialog
 import com.example.runforrun.ui.navgraph.NavGraph
 import com.example.runforrun.ui.theme.RunForRunTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val selectedLanguage = sharedPreferences.getString(SELECTED_LANGUAGE, RUSSIAN) ?: RUSSIAN
+        setAppLocale(selectedLanguage)
         setContent {
             RunForRunTheme {
                 PermissionRequest()

@@ -1,6 +1,8 @@
 package com.example.runforrun.di
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -24,6 +26,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +41,15 @@ abstract class AppModule {
 
     companion object {
         private const val USER_PREFERENCES_FILE_NAME = "user_preferences"
+        private const val SHARED_PREFERENCES = "shared_preferences"
+
+
+        @Provides
+        @Singleton
+        fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+            return context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        }
+
 
         @Provides
         @Singleton
@@ -77,11 +89,11 @@ abstract class AppModule {
         fun provideRunDatabase(
             application: Application
         ): RunDatabase {
-        return Room.databaseBuilder(
+            return Room.databaseBuilder(
 //            return Room.inMemoryDatabaseBuilder(
                 context = application,
                 klass = RunDatabase::class.java,
-            name = RUN_DB_NAME
+                name = RUN_DB_NAME
             )
                 .fallbackToDestructiveMigration()
                 .build()
@@ -95,6 +107,7 @@ abstract class AppModule {
 
         @Provides
         fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
         @Singleton
         @Provides
         fun provideCoroutineScope(

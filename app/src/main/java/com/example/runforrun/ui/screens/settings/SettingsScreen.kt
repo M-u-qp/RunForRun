@@ -41,16 +41,18 @@ fun SettingsScreen(
             navigateUp = navigateUp
         )
         Spacer(modifier = Modifier.size(32.dp))
-        LanguageCard(
-            modifier = Modifier
-            .padding(horizontal = 20.dp)
-            .fillMaxWidth(),
-            selectedLanguage = selectedLanguage,
-            onLanguageChange = { code ->
-                scope.launch {
-                    viewModel.updateLanguage(context, code)
+        selectedLanguage?.let { language ->
+            LanguageCard(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth(),
+                selectedLanguage = language,
+                onLanguageChange = { code ->
+                    scope.launch {
+                        viewModel.updateLanguage(context, code)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
