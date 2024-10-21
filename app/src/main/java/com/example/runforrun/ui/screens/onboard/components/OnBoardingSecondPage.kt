@@ -89,7 +89,11 @@ fun OnBoardingSecondPage(
         Spacer(modifier = Modifier.size(16.dp))
         OutlinedTextField(
             value = if (weight > 0) weight.toString() else "",
-            onValueChange = { if (it.isNotBlank()) weightChange(it.toFloat()) },
+            onValueChange = { input ->
+                if (input.isNotBlank() && input.matches(Regex("^[0-9]*\\.?[0-9]*\$"))) {
+                    weightChange(input.toFloat())
+                }
+            },
             label = {
                 Text(
                     text = stringResource(id = R.string.weight),
@@ -110,7 +114,11 @@ fun OnBoardingSecondPage(
         Spacer(modifier = Modifier.size(16.dp))
         OutlinedTextField(
             value = if (weeklyGoal > 0) weeklyGoal.toString() else "",
-            onValueChange = { if (it.isNotBlank()) weeklyGoalChange(it.toFloat()) },
+            onValueChange = { input ->
+                if (input.isNotBlank() && input.matches(Regex("^[0-9]*\\.?[0-9]*\$"))) {
+                    weeklyGoalChange(input.toFloat())
+                }
+            },
             label = {
                 Text(
                     text = stringResource(id = R.string.weekly_goal),
