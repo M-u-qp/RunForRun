@@ -1,5 +1,6 @@
 package com.example.runforrun.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
@@ -23,6 +24,7 @@ import com.example.runforrun.common.extension.appSettings
 import com.example.runforrun.common.extension.locationPermission
 import com.example.runforrun.common.extension.mediaPermission
 import com.example.runforrun.common.extension.setAppLocale
+import com.example.runforrun.common.utils.LocationUts
 import com.example.runforrun.common.utils.PermissionUts
 import com.example.runforrun.data.repository.SettingsRepository.Companion.RUSSIAN
 import com.example.runforrun.data.repository.SettingsRepository.Companion.SELECTED_LANGUAGE
@@ -68,8 +70,7 @@ class MainActivity : ComponentActivity() {
                     if (!granted) {
                         if (PermissionUts.locationPermissions.contains(permission)) {
                             showLocPermissionReason = true
-                        }
-                        if (PermissionUts.mediaPermissions.contains(permission)) {
+                        } else if (PermissionUts.mediaPermissions.contains(permission)) {
                             showMediaPermissionReason = true
                         }
                     }
@@ -86,8 +87,11 @@ class MainActivity : ComponentActivity() {
                     }
                 },
                 okClick = {
-                    showMediaPermissionReason = false
-                    launcher.launch(PermissionUts.mediaPermissions)
+                    if (!mediaPermission()) {
+                        appSettings()
+                    } else {
+                        showMediaPermissionReason = false
+                    }
                 }
             )
         }
@@ -100,7 +104,13 @@ class MainActivity : ComponentActivity() {
                         showLocPermissionReason = false
                     }
                 },
-                okClick = { appSettings() }
+                okClick = {
+                    if (!locationPermission()) {
+                        appSettings()
+                    } else {
+                        showLocPermissionReason = false
+                    }
+                }
             )
         }
         if (showAllPermissionReason) {
@@ -130,14 +140,26 @@ class MainActivity : ComponentActivity() {
                     showMediaPermissionReason = true
 
                 else -> {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Пожалуйста, включите GPS, чтобы получать статистику бега.",
-                        Toast.LENGTH_LONG
-                    ).show()
+//                    Toast.makeText(
+//                        this@MainActivity,
+//                        "Пожалуйста, включите GPS, чтобы получать статистику бега.",
+//                        Toast.LENGTH_LONG
+//                    ).show()
                     launcher.launch(PermissionUts.allPermissions)
                 }
             }
+        }
+    }
+
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LocationUts.ENABLE_REQUEST && resultCode != RESULT_OK) {
+            Toast.makeText(
+                this,
+                "Пожалуйста, включите GPS, чтобы получать статистику бега.",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }

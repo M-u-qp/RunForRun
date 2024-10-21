@@ -61,7 +61,7 @@ fun PermissionDialog(
         },
         text = {
             Text(
-                text = stringResource(id = R.string.needed_location_point_permission),
+                text = stringResource(id = R.string.needed_permissions),
                 style = MaterialTheme.typography.bodyMedium
             )
         }

@@ -20,8 +20,8 @@
     <string name="running_time">Время бега</string>
 
     <string name="permission_required">Требуется разрешение</string>
-    <string name="needed_location_point_permission">
-        Для записи вашего текущего местоположения требуется разрешение на определение местоположения. </string>
+    <string name="needed_permissions">
+        Для корректной работы приложения, нужно предоставить разрешения. </string>
     <string name="grant">Предоставить</string>
     <string name="deny">Отклонить</string>
 

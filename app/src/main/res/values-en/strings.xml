@@ -20,8 +20,8 @@
     <string name="running_time">Running time</string>
 
     <string name="permission_required">Permission required</string>
-    <string name="needed_location_point_permission">
-        Location permission is required to record your current location. </string>
+    <string name="needed_permissions">
+        For the application to work correctly, you need to provide permissions. </string>
     <string name="grant">Grant</string>
     <string name="deny">Deny</string>
 

@@ -14,11 +14,12 @@ object PermissionUts {
         }
     }.toTypedArray()
 
-    val mediaPermissions = mutableListOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    ).apply {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    val mediaPermissions = mutableListOf<String>().apply {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             add(Manifest.permission.READ_MEDIA_IMAGES)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             add(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
         }
     }.toTypedArray()
