@@ -1,16 +1,11 @@
 package com.example.runforrun.data.repository
 
-import android.content.Context
 import android.content.SharedPreferences
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import kotlinx.coroutines.flow.first
+import java.util.Locale
 import javax.inject.Inject
 
 class SettingsRepository @Inject constructor(
-    private val dataStore: DataStore<Preferences>,
+//    private val dataStore: DataStore<Preferences>,
     private val sharedPreferences: SharedPreferences
 ) {
 
@@ -36,7 +31,7 @@ class SettingsRepository @Inject constructor(
     }
 
     fun getSelectedLanguage(): String? {
-        return sharedPreferences.getString(SELECTED_LANGUAGE, "ru")
+        return sharedPreferences.getString(SELECTED_LANGUAGE, Locale.getDefault().language)
     }
 
 //    suspend fun changeApplicationLanguage(language: String) {

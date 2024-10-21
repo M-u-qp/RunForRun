@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel(), SettingsEvent {
-    private val _selectedLanguage = MutableStateFlow<String?>(null)
+    private val _selectedLanguage = MutableStateFlow<String?>(Locale.getDefault().language)
     val selectedLanguage = _selectedLanguage.asStateFlow()
 
     init {
@@ -28,15 +28,15 @@ class SettingsViewModel @Inject constructor(
     }
 
     override suspend fun updateLanguage(context: Context, languageCode: String) {
-        settingsRepository.changeApplicationLanguage(languageCode)
-        _selectedLanguage.value = languageCode
-
-        val configuration = context.resources.configuration
-        configuration.setLocale(Locale(languageCode))
-        context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
-
-        val intent = Intent(context, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(intent)
+        if (languageCode != selectedLanguage.value) {
+            settingsRepository.changeApplicationLanguage(languageCode)
+            _selectedLanguage.value = languageCode
+            val configuration = context.resources.configuration
+            configuration.setLocale(Locale(languageCode))
+            context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
+            val intent = Intent(context, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        }
     }
 }
