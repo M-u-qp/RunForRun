@@ -40,4 +40,8 @@
     <string name="weekly_report">Еженедельный отчет</string>
     <string name="statistics">Статистика</string>
     <string name="select_language">Выберите язык</string>
+    
+    <string name="running_was">Пробег составил</string>
+    <string name="took_time">Занял по времени</string>
+    <string name="calories_burned">Сожжено калорий</string>
 </resources>

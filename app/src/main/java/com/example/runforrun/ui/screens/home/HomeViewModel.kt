@@ -72,7 +72,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-     fun dismissDialog() {
+    fun dismissDialog() {
         _homeScreenState.update { it.copy(currentRunDetails = null) }
     }
 

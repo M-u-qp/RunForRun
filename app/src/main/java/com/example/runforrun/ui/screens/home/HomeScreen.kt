@@ -21,19 +21,23 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.runforrun.R
+import com.example.runforrun.common.utils.FileUts.shareRun
 import com.example.runforrun.ui.components.RunningDialog
 import com.example.runforrun.ui.screens.home.components.EmptyRunList
 import com.example.runforrun.ui.screens.home.components.HomeTopBar
 import com.example.runforrun.ui.screens.home.components.RecentRunListActivity
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -46,6 +50,8 @@ fun HomeScreen(
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
     val doesUserExist by viewModel.doesUserExist.collectAsStateWithLifecycle()
     val duration by viewModel.duration.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     if (doesUserExist == true) {
         Column {
@@ -132,7 +138,12 @@ fun HomeScreen(
             RunningDialog(
                 run = run,
                 dismiss = viewModel::dismissDialog,
-                delete = { viewModel.deleteRun(run) }
+                delete = { viewModel.deleteRun(run) },
+                share = {
+                    scope.launch {
+                        shareRun(run, context)
+                    }
+                }
             )
         }
     }

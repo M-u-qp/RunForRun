@@ -41,4 +41,7 @@
     <string name="statistics">Statistics</string>
     <string name="select_language">Select language</string>
 
+    <string name="running_was">Running was</string>
+    <string name="took_time">It took time</string>
+    <string name="calories_burned">Calories burned</string>
 </resources>

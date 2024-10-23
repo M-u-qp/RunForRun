@@ -43,7 +43,8 @@ import com.example.runforrun.ui.screens.run.components.RunningStatsItem
 fun RunningDialog(
     run: Run,
     dismiss: () -> Unit,
-    delete: (Run) -> Unit
+    delete: (Run) -> Unit,
+    share: (Run) -> Unit
 ) {
     BasicAlertDialog(
         onDismissRequest = dismiss,
@@ -59,7 +60,8 @@ fun RunningDialog(
             RunningRouteImage(
                 run = run,
                 dismiss = dismiss,
-                delete = delete
+                delete = delete,
+                share = share
             )
             Spacer(modifier = Modifier.size(20.dp))
             Column(
@@ -98,7 +100,8 @@ private fun RunningRouteImage(
     modifier: Modifier = Modifier,
     run: Run,
     dismiss: () -> Unit,
-    delete: (Run) -> Unit
+    delete: (Run) -> Unit,
+    share: (Run) -> Unit
 ) {
     Box(modifier = modifier) {
         Image(
@@ -142,7 +145,9 @@ private fun RunningRouteImage(
             }
             Spacer(modifier = Modifier.size(4.dp))
             IconButton(
-                onClick = { },
+                onClick = {
+                       share(run)
+                },
                 modifier = Modifier
                     .background(
                         color = MaterialTheme.colorScheme.secondaryContainer,

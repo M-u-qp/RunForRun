@@ -31,12 +31,20 @@ class SettingsViewModel @Inject constructor(
         if (languageCode != selectedLanguage.value) {
             settingsRepository.changeApplicationLanguage(languageCode)
             _selectedLanguage.value = languageCode
-            val configuration = context.resources.configuration
-            configuration.setLocale(Locale(languageCode))
-            context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
-            val intent = Intent(context, MainActivity::class.java)
+
+            var fContext = context
+            val configuration = fContext.resources.configuration
+            val systemLocale = configuration.locales.get(0)
+            if (languageCode != "" && systemLocale.language != languageCode) {
+                val locale = Locale(languageCode)
+                Locale.setDefault(locale)
+                configuration.setLocale(locale)
+                fContext = fContext.createConfigurationContext(configuration)
+            }
+
+            val intent = Intent(fContext, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
+            fContext.startActivity(intent)
         }
     }
 }
