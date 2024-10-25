@@ -43,7 +43,8 @@ fun ProfileScreen(
     profileEvent: ProfileEvent,
     paddingValues: PaddingValues,
     navigateToRunningStatistics: () -> Unit,
-    navigateToSettings: () -> Unit
+    navigateToSettings: () -> Unit,
+    navigateToAchievements: () -> Unit
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -108,7 +109,9 @@ fun ProfileScreen(
                 title = stringResource(id = R.string.personal_characteristics)
             )
             ProfileSettingsItem(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navigateToAchievements() },
                 image = ImageBitmap.imageResource(id = R.drawable.achievements),
                 title = stringResource(id = R.string.achievements)
             )

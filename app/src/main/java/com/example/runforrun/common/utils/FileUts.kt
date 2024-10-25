@@ -15,7 +15,7 @@ import java.io.IOException
 
 object FileUts {
     private const val SHARED_IMAGE = "shared_image.png"
-    suspend fun saveBitmapToFile(context: Context, bitmap: Bitmap): Uri? {
+    private suspend fun saveBitmapToFile(context: Context, bitmap: Bitmap): Uri? {
         deleteFile(context)
         val file = File(context.cacheDir, SHARED_IMAGE)
         return try {

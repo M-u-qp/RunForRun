@@ -31,6 +31,8 @@ import com.example.runforrun.R
 import com.example.runforrun.ui.navgraph.Route
 import com.example.runforrun.ui.navigation.components.BottomNavigationItem
 import com.example.runforrun.ui.navigation.components.RunBottomNavigation
+import com.example.runforrun.ui.screens.achievements.AchievementsScreen
+import com.example.runforrun.ui.screens.achievements.AchievementsViewModel
 import com.example.runforrun.ui.screens.all_runs.AllRunsScreen
 import com.example.runforrun.ui.screens.all_runs.AllRunsViewModel
 import com.example.runforrun.ui.screens.home.HomeScreen
@@ -134,7 +136,8 @@ fun RunNavigator() {
                             profileEvent = profileViewModel,
                             paddingValues = paddingValues,
                             navigateToRunningStatistics = { navController.navigate(Route.RunningStatisticsScreen.route) },
-                            navigateToSettings = { navController.navigate(Route.SettingsScreen.route) }
+                            navigateToSettings = { navController.navigate(Route.SettingsScreen.route) },
+                            navigateToAchievements = { navController.navigate(Route.AchievementsScreen.route) }
                         )
                     }
                     composable(
@@ -165,6 +168,13 @@ fun RunNavigator() {
                         val settingsViewModel: SettingsViewModel = hiltViewModel()
                         SettingsScreen(
                             viewModel = settingsViewModel,
+                            navigateUp = { navController.navigateUp() }
+                        )
+                    }
+                    composable(route = Route.AchievementsScreen.route) {
+                        val achievementsViewModel: AchievementsViewModel = hiltViewModel()
+                        AchievementsScreen(
+                            viewModel = achievementsViewModel,
                             navigateUp = { navController.navigateUp() }
                         )
                     }
