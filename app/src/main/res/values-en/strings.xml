@@ -44,4 +44,11 @@
     <string name="running_was">Running was</string>
     <string name="took_time">It took time</string>
     <string name="calories_burned">Calories burned</string>
+    <string name="km_10">You need to run 10km</string>
+    <string name="km_30">You need to run 30km</string>
+    <string name="km_50">You need to run 50km</string>
+    <string name="kcal_10000">You need to burn 10,000 calories</string>
+    <string name="get_all_goal">You need to get all the previous achievements</string>
+    <string name="ran_through">You ran through</string>
+    <string name="burned_calories">You burned calories</string>
 </resources>

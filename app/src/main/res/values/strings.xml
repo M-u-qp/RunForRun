@@ -44,4 +44,11 @@
     <string name="running_was">Пробег составил</string>
     <string name="took_time">Занял по времени</string>
     <string name="calories_burned">Сожжено калорий</string>
+    <string name="km_10">Вам нужно пробежать 10км</string>
+    <string name="km_30">Вам нужно пробежать 30км</string>
+    <string name="km_50">Вам нужно пробежать 50км</string>
+    <string name="kcal_10000">Вам нужно сжечь 10000 ккал</string>
+    <string name="get_all_goal">Вам нужно получить все предыдущие достижения</string>
+    <string name="ran_through">Вы пробежали</string>
+    <string name="burned_calories">Вы сожгли калорий</string>
 </resources>
