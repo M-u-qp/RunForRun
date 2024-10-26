@@ -1,8 +1,10 @@
 package com.example.runforrun.ui.screens.profile
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.runforrun.R
 import com.example.runforrun.data.repository.Repository
 import com.example.runforrun.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,9 +55,9 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(editMode = true) }
     }
 
-    override fun saveProfile() {
+    override fun saveProfile(context: Context) {
         if (_state.value.user.name.isBlank()) {
-            _state.update { it.copy(error = "Имя не может отсутствовать!") }
+            _state.update { it.copy(error = context.getString(R.string.name_cannot_be_missing)) }
             return
         }
         viewModelScope.launch {

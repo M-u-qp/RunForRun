@@ -40,6 +40,11 @@
     <string name="weekly_report">Weekly report</string>
     <string name="statistics">Statistics</string>
     <string name="select_language">Select language</string>
+    <string name="english">english</string>
+    <string name="russian">russian</string>
+    <string name="achievements_visible">Visibility of achievements</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="running_was">Running was</string>
     <string name="took_time">It took time</string>
@@ -51,4 +56,5 @@
     <string name="get_all_goal">You need to get all the previous achievements</string>
     <string name="ran_through">You ran through</string>
     <string name="burned_calories">You burned calories</string>
+    <string name="name_cannot_be_missing">Name cannot be missing</string>
 </resources>

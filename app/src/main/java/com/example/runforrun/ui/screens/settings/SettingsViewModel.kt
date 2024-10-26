@@ -9,6 +9,7 @@ import com.example.runforrun.ui.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
@@ -20,10 +21,15 @@ class SettingsViewModel @Inject constructor(
     private val _selectedLanguage = MutableStateFlow<String?>(Locale.getDefault().language)
     val selectedLanguage = _selectedLanguage.asStateFlow()
 
+    private val _achieveVisible = MutableStateFlow(false)
+    val achieveVisible = _achieveVisible.asStateFlow()
+
     init {
         viewModelScope.launch {
             _selectedLanguage.value =
                 settingsRepository.getSelectedLanguage()
+
+            _achieveVisible.value = settingsRepository.isAchievementsVisible().first()
         }
     }
 
@@ -45,6 +51,13 @@ class SettingsViewModel @Inject constructor(
             val intent = Intent(fContext, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             fContext.startActivity(intent)
+        }
+    }
+
+    fun setAchievementsVisibility(isVisible: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setAchievementsVisibility(isVisible)
+            _achieveVisible.value = isVisible
         }
     }
 }

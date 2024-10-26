@@ -28,19 +28,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.runforrun.R
-import com.example.runforrun.data.repository.SettingsRepository.Companion.ENGLISH
-import com.example.runforrun.data.repository.SettingsRepository.Companion.RUSSIAN
 
 @Composable
-fun LanguageCard(
+fun AchieveVisibleCard(
     modifier: Modifier = Modifier,
-    selectedLanguage: String,
-    onLanguageChange: (String) -> Unit
+    isVisible: Boolean,
+    onVisibleChange: (Boolean) -> Unit
 ) {
-    val russianLang = stringResource(id = R.string.russian)
-    val englishLang = stringResource(id = R.string.english)
-    val languages = listOf(ENGLISH to englishLang, RUSSIAN to russianLang)
+    val yesText = stringResource(id = R.string.yes)
+    val noText = stringResource(id = R.string.no)
     var expanded by remember { mutableStateOf(false) }
+    val listChoice = listOf(true to yesText, false to noText)
 
     Box(
         modifier = modifier
@@ -66,7 +64,7 @@ fun LanguageCard(
                 modifier = Modifier.weight(1f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val languageText = stringResource(id = R.string.select_language)
+                val languageText = stringResource(id = R.string.achievements_visible)
                 Text(
                     text = "$languageText: ",
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -75,7 +73,7 @@ fun LanguageCard(
                     )
                 )
                 Text(
-                    text = "${languages.find { it.first == selectedLanguage }?.second}",
+                    text = "${listChoice.find { it.first == isVisible }?.second}",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -93,12 +91,12 @@ fun LanguageCard(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    languages.forEach { (code, name) ->
+                    listChoice.forEach { (code, name) ->
                         DropdownMenuItem(
                             text = {
                                 Text(text = name)
                             }, onClick = {
-                                onLanguageChange(code)
+                                onVisibleChange(code)
                                 expanded = false
                             }
                         )

@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.runforrun.R
 import com.example.runforrun.ui.components.DefaultTopBar
+import com.example.runforrun.ui.screens.settings.components.AchieveVisibleCard
 import com.example.runforrun.ui.screens.settings.components.LanguageCard
 import kotlinx.coroutines.launch
 
@@ -30,6 +31,7 @@ fun SettingsScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val selectedLanguage by viewModel.selectedLanguage.collectAsStateWithLifecycle()
+    val achieveVisible by viewModel.achieveVisible.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -58,6 +60,18 @@ fun SettingsScreen(
                     }
                 )
             }
+            Spacer(modifier = Modifier.size(16.dp))
+            AchieveVisibleCard(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth(),
+                isVisible = achieveVisible,
+                onVisibleChange = { code ->
+                    scope.launch {
+                        viewModel.setAchievementsVisibility(code)
+                    }
+                }
+            )
         }
     }
 }

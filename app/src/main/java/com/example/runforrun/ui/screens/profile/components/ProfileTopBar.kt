@@ -138,7 +138,7 @@ fun ProfileTopBar(
                             if (!editMode) {
                                 profileEvent.beginEdit()
                             } else {
-                                profileEvent.saveProfile()
+                                profileEvent.saveProfile(context)
                             }
                         },
                         modifier = if (!editMode) {

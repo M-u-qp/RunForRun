@@ -36,11 +36,17 @@
     <string name="our_contacts">Наши контакты</string>
     <string name="personal_characteristics">Характеристики</string>
     <string name="about_app">О приложении</string>
+    <string name="name_cannot_be_missing">Имя не может отсутствовать</string>
 
     <string name="weekly_report">Еженедельный отчет</string>
     <string name="statistics">Статистика</string>
     <string name="select_language">Выберите язык</string>
-    
+    <string name="english">английский</string>
+    <string name="russian">русский</string>
+    <string name="achievements_visible">Видимость достижений</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
     <string name="running_was">Пробег составил</string>
     <string name="took_time">Занял по времени</string>
     <string name="calories_burned">Сожжено калорий</string>
