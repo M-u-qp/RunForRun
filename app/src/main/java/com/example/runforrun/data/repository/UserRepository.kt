@@ -5,9 +5,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.runforrun.data.model.Gender
 import com.example.runforrun.data.model.User
+import com.example.runforrun.ui.screens.achievements.utils.Achievement
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,8 +26,11 @@ class UserRepository @Inject constructor(
         val USER_WEIGHT = floatPreferencesKey("user_weight")
         val USER_WEEKLY_GOAL = floatPreferencesKey("user_weekly_goal")
         val USER_IMG = stringPreferencesKey("user_img")
+
+        val ACHIEVEMENTS_MASK_KEY = intPreferencesKey("achievements_mask_key")
     }
 
+    //Пользователь
     val user = dataStore.data.map {
         val dbImg = it[USER_IMG]
         User(
@@ -46,5 +52,19 @@ class UserRepository @Inject constructor(
         it[USER_WEEKLY_GOAL] = user.weeklyGoal
         it[USER_WEIGHT] = user.weight
         it[USER_IMG] = user.img?.toString() ?: ""
+    }
+
+    //Достижения
+    suspend fun unlockAchievement(achievement: Achievement) {
+        dataStore.edit { preferences ->
+            val currentMask = preferences[ACHIEVEMENTS_MASK_KEY] ?: 0
+            preferences[ACHIEVEMENTS_MASK_KEY] = currentMask or (1 shl achievement.ordinal)
+        }
+    }
+    fun isAchievementUnlock(achievement: Achievement): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            val currentMask = preferences[ACHIEVEMENTS_MASK_KEY] ?: 0
+            (currentMask and (1 shl achievement.ordinal)) != 0
+        }
     }
 }

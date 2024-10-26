@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 
@@ -27,16 +28,27 @@ import androidx.compose.ui.unit.dp
 fun AchievementCard(
     imageBitmap: ImageBitmap,
     goalText: String,
-    currentCompletion: String
+    currentCompletion: String,
+    isUnlocked: Boolean
 ) {
     var showTooltip by remember { mutableStateOf(false) }
+    val colorFilter = if (isUnlocked) {
+        null
+    } else {
+       ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
+    }
+    val colorBorder = if (isUnlocked) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+    }
 
     Box(
         modifier = Modifier
             .aspectRatio(1f)
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.primary,
+                color = colorBorder,
                 shape = MaterialTheme.shapes.large
             )
             .clip(MaterialTheme.shapes.large)
@@ -59,7 +71,8 @@ fun AchievementCard(
                 contentDescription = null,
                 modifier = Modifier
                     .size(60.dp)
-                    .align(Alignment.Center)
+                    .align(Alignment.Center),
+                colorFilter = colorFilter
             )
         }
     }
