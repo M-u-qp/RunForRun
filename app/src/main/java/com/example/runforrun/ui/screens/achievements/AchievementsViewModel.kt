@@ -2,9 +2,9 @@ package com.example.runforrun.ui.screens.achievements
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.runforrun.common.utils.AchievementUts
 import com.example.runforrun.data.repository.Repository
 import com.example.runforrun.data.repository.UserRepository
-import com.example.runforrun.ui.screens.achievements.utils.Achievement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,7 +38,7 @@ class AchievementsViewModel @Inject constructor(
 
     private val _achievementsState = MutableStateFlow<List<Boolean>>(emptyList())
     val achievementsState = _achievementsState.asStateFlow()
-    private val achievementsCache = mutableMapOf<Achievement, Boolean>()
+    private val achievementsCache = mutableMapOf<AchievementUts.Achievement, Boolean>()
 
     init {
         loadAchievements()
@@ -46,7 +46,7 @@ class AchievementsViewModel @Inject constructor(
 
     private fun loadAchievements() {
         viewModelScope.launch {
-            val states = Achievement.entries.map { achievement ->
+            val states = AchievementUts.Achievement.entries.map { achievement ->
                 achievementsCache.getOrPut(achievement) {
                     userRepository.isAchievementUnlock(achievement).first().also { isUnlocked ->
                         _achievementsState.value += isUnlocked
@@ -61,23 +61,23 @@ class AchievementsViewModel @Inject constructor(
      fun checkAndUnlockAchievements() {
         viewModelScope.launch {
             val achievementConditions = mapOf(
-                Achievement.MEDAL_1 to {
+                AchievementUts.Achievement.MEDAL_1 to {
                     runningState.value.totalDistance >= 10
                 },
-                Achievement.MEDAL to {
+                AchievementUts.Achievement.MEDAL to {
                     runningState.value.totalDistance >= 30
                 },
-                Achievement.MEDAL_STAR to {
+                AchievementUts.Achievement.MEDAL_STAR to {
                     runningState.value.totalDistance >= 50
                 },
-                Achievement.BOWL to {
+                AchievementUts.Achievement.BOWL to {
                     runningState.value.totalCaloriesBurned.toFloat() >= 10000
                 },
-                Achievement.GOAL to {
-                    achievementsCache.values.take(Achievement.entries.size - 1).all { it }
+                AchievementUts.Achievement.GOAL to {
+                    achievementsCache.values.take(AchievementUts.Achievement.entries.size - 1).all { it }
                 }
             )
-            for (achievement in Achievement.entries) {
+            for (achievement in AchievementUts.Achievement.entries) {
                 if (achievementsCache[achievement] != true) {
                     achievementConditions[achievement]?.let { condition ->
                         if (condition()) {

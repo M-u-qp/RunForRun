@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.runforrun.R
+import com.example.runforrun.common.utils.AchievementUts
 import com.example.runforrun.ui.components.DefaultTopBar
 import com.example.runforrun.ui.screens.achievements.components.AchievementCard
-import com.example.runforrun.ui.screens.achievements.utils.Achievement
 
 @Composable
 fun AchievementsScreen(
@@ -57,17 +57,17 @@ fun AchievementsScreen(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                Achievement.entries.forEachIndexed { index, achieve ->
+                AchievementUts.Achievement.entries.forEachIndexed { index, achieve ->
                     item(index) {
                         val isUnlocked = achievementsState.getOrNull(index) ?: false
                         val currentCompletion = when (achieve) {
-                            Achievement.MEDAL, Achievement.MEDAL_1, Achievement.MEDAL_STAR ->
+                            AchievementUts.Achievement.MEDAL, AchievementUts.Achievement.MEDAL_1, AchievementUts.Achievement.MEDAL_STAR ->
                                 "$currentDistanceText: ${runningState.value.totalDistance}$km"
 
-                            Achievement.BOWL ->
+                            AchievementUts.Achievement.BOWL ->
                                 "$currentCaloriesText: ${runningState.value.totalCaloriesBurned}$kcal"
 
-                            Achievement.GOAL ->
+                            AchievementUts.Achievement.GOAL ->
                                 ""
                         }
                         AchievementCard(
