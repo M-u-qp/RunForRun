@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,6 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.runforrun.R
+import com.example.runforrun.common.utils.AchievementUts
 import com.example.runforrun.data.model.User
 import com.example.runforrun.ui.components.UserProfileImage
 import com.example.runforrun.ui.screens.profile.ProfileEvent
@@ -58,7 +61,11 @@ fun ProfileTopBar(
     modifier: Modifier = Modifier,
     editMode: Boolean,
     user: User,
-    profileEvent: ProfileEvent
+    profileEvent: ProfileEvent,
+    unlockedAchievements: List<AchievementUts.Achievement>,
+    selectedAchievements: List<AchievementUts.Achievement>,
+    onSelectAchievement: (AchievementUts.Achievement) -> Unit,
+    onDeselectAchievement: (AchievementUts.Achievement) -> Unit
 ) {
     val context = LocalContext.current
     val userNameFR = remember { FocusRequester() }
@@ -205,7 +212,37 @@ fun ProfileTopBar(
                         textAlign = TextAlign.Center
                     )
                 )
+
+                if (selectedAchievements.isNotEmpty()) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        selectedAchievements.forEach { achievement ->
+                            Image(
+                                modifier = Modifier.size(24.dp),
+                                bitmap = ImageBitmap.imageResource(id = achievement.resId),
+                                contentDescription = null
+                            )
+                        }
+                    }
+                }
+
             } else {
+                AnimatedVisibility(user.img != null) {
+                    OutlinedButton(
+                        onClick = { profileEvent.changeUserImage(null) },
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.delete_image),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.size(6.dp))
                 BasicTextField(
                     value = user.name,
                     onValueChange = profileEvent::changeUserName,
@@ -223,18 +260,41 @@ fun ProfileTopBar(
                     singleLine = true,
                     cursorBrush = SolidColor(MaterialTheme.colorScheme.onPrimary)
                 )
-                AnimatedVisibility(editMode && user.img != null) {
-                    Spacer(modifier = Modifier.size(6.dp))
-                    OutlinedButton(
-                        onClick = { profileEvent.changeUserImage(null) },
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.delete_image),
-                            style = MaterialTheme.typography.labelMedium
-                        )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    unlockedAchievements.forEach { achievement ->
+                        Column(
+                            modifier = Modifier,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Image(
+                                modifier = Modifier.size(24.dp),
+                                bitmap = ImageBitmap.imageResource(id = achievement.resId),
+                                contentDescription = null
+                            )
+                            val isSelected = selectedAchievements.contains(achievement)
+                            Button(onClick = {
+                                if (isSelected) {
+                                    onDeselectAchievement(achievement)
+                                } else {
+                                    onSelectAchievement(achievement)
+                                }
+                            }) {
+                                if (!isSelected) {
+                                    Icon(
+                                        bitmap = ImageBitmap.imageResource(R.drawable.done),
+                                        contentDescription = null
+                                    )
+                                } else {
+                                    Icon(
+                                        bitmap = ImageBitmap.imageResource(R.drawable.close),
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }

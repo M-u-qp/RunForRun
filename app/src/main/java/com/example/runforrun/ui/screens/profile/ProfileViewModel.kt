@@ -5,11 +5,14 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.runforrun.R
+import com.example.runforrun.common.utils.AchievementUts
 import com.example.runforrun.data.repository.Repository
+import com.example.runforrun.data.repository.SettingsRepository
 import com.example.runforrun.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -23,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    repository: Repository
+    repository: Repository,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel(), ProfileEvent {
     private val _state = MutableStateFlow(ProfileScreenState())
     val state = combine(
@@ -45,12 +49,25 @@ class ProfileViewModel @Inject constructor(
         ProfileScreenState()
     )
 
+    private val _unlockedAchievements =
+        MutableStateFlow<List<AchievementUts.Achievement>>(emptyList())
+    val unlockedAchievements = _unlockedAchievements.asStateFlow()
+    private val _selectedAchievements =
+        MutableStateFlow<List<AchievementUts.Achievement>>(emptyList())
+    val selectedAchievements = _selectedAchievements.asStateFlow()
+
     init {
         userRepository.user.onEach { user ->
             _state.update { it.copy(user = user) }
         }.launchIn(viewModelScope)
+
+        loadUnlockedAchievements()
+        viewModelScope.launch {
+            getSelectedAchievements()
+        }
     }
 
+    //Пользователь
     override fun beginEdit() {
         _state.update { it.copy(editMode = true) }
     }
@@ -63,6 +80,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.updateUser(state.value.user)
             _state.update { it.copy(editMode = false) }
+            saveSelectedAchievements(selectedAchievements.value)
         }
     }
 
@@ -82,6 +100,52 @@ class ProfileViewModel @Inject constructor(
                     editMode = false
                 )
             }
+            _selectedAchievements.update { getSelectedAchievements() }
         }
+    }
+
+    //Достижения
+    private fun loadUnlockedAchievements() {
+        viewModelScope.launch {
+            settingsRepository.isAchievementsVisible().collect { isVisible ->
+                if (isVisible) {
+                    val achievements = AchievementUts.Achievement.entries.filter { achieve ->
+                        userRepository.isAchievementUnlock(achieve).first()
+                    }
+                    _unlockedAchievements.value = achievements
+                } else {
+                    _unlockedAchievements.value = emptyList()
+                }
+            }
+        }
+    }
+
+    fun selectAchievement(achievement: AchievementUts.Achievement) {
+        if (_selectedAchievements.value.size < 3 && achievement !in _selectedAchievements.value) {
+            _selectedAchievements.value += achievement
+        }
+    }
+
+    fun deselectAchievement(achievement: AchievementUts.Achievement) {
+        _selectedAchievements.value -= achievement
+    }
+
+    private fun saveSelectedAchievements(achievements: List<AchievementUts.Achievement>) {
+        viewModelScope.launch {
+            userRepository.saveSelectedAchievements(achievements)
+        }
+    }
+
+    suspend fun getSelectedAchievements(): List<AchievementUts.Achievement> {
+        settingsRepository.isAchievementsVisible().collect { isVisible ->
+            if (isVisible) {
+                userRepository.getSelectedAchievements().collect { achievements ->
+                    _selectedAchievements.value = achievements
+                }
+            } else {
+                _selectedAchievements.value = emptyList()
+            }
+        }
+        return selectedAchievements.value
     }
 }

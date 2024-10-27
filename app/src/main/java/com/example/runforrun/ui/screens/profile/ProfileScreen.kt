@@ -48,7 +48,12 @@ fun ProfileScreen(
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val unlockedAchievements by viewModel.unlockedAchievements.collectAsStateWithLifecycle()
+    val selectedAchievements by viewModel.selectedAchievements.collectAsStateWithLifecycle()
 
+    LaunchedEffect(key1 = true) {
+        viewModel.getSelectedAchievements()
+    }
     LaunchedEffect(key1 = state.error) {
         if (state.error.isNullOrBlank().not()) {
             Toast.makeText(context, state.error.toString(), Toast.LENGTH_SHORT).show()
@@ -79,7 +84,15 @@ fun ProfileScreen(
                         .background(color = Color.Transparent),
                     editMode = state.editMode,
                     user = state.user,
-                    profileEvent = profileEvent
+                    profileEvent = profileEvent,
+                    unlockedAchievements = unlockedAchievements,
+                    selectedAchievements = selectedAchievements,
+                    onSelectAchievement = { achievement -> viewModel.selectAchievement(achievement) },
+                    onDeselectAchievement = { achievement ->
+                        viewModel.deselectAchievement(
+                            achievement
+                        )
+                    }
                 )
                 ProgressCard(
                     modifier = Modifier

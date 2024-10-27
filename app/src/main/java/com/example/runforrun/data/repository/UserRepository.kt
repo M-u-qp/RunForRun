@@ -28,6 +28,7 @@ class UserRepository @Inject constructor(
         val USER_IMG = stringPreferencesKey("user_img")
 
         val ACHIEVEMENTS_MASK_KEY = intPreferencesKey("achievements_mask_key")
+        val SELECTED_ACHIEVEMENTS_MASK_KEY = intPreferencesKey("selected_achievements_mask_key")
     }
 
     //Пользователь
@@ -61,10 +62,34 @@ class UserRepository @Inject constructor(
             preferences[ACHIEVEMENTS_MASK_KEY] = currentMask or (1 shl achievement.ordinal)
         }
     }
+
     fun isAchievementUnlock(achievement: AchievementUts.Achievement): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             val currentMask = preferences[ACHIEVEMENTS_MASK_KEY] ?: 0
             (currentMask and (1 shl achievement.ordinal)) != 0
+        }
+    }
+
+    suspend fun saveSelectedAchievements(achievements: List<AchievementUts.Achievement>) {
+        dataStore.edit { preferences ->
+            var mask = 0
+            if (achievements.isNotEmpty()) {
+                achievements.forEach { achievement ->
+                    mask = mask or (1 shl achievement.ordinal)
+                }
+            } else {
+                mask = 0
+            }
+            preferences[SELECTED_ACHIEVEMENTS_MASK_KEY] = mask
+        }
+    }
+
+    fun getSelectedAchievements(): Flow<List<AchievementUts.Achievement>> {
+        return dataStore.data.map { preferences ->
+            val currentMask = preferences[SELECTED_ACHIEVEMENTS_MASK_KEY] ?: 0
+            AchievementUts.Achievement.entries.filter {
+                (currentMask and (1 shl it.ordinal)) != 0
+            }
         }
     }
 }
