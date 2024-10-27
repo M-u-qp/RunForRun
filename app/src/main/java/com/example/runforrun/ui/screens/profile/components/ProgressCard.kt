@@ -65,7 +65,7 @@ fun ProgressCard(
             ) {
                 Text(
                     text = stringResource(id = R.string.overall_progress),
-                    style = MaterialTheme.typography.labelLarge.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.SemiBold
                     ),

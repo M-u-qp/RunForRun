@@ -96,7 +96,7 @@ fun HomeScreen(
                         Text(
                             modifier = Modifier.weight(1f),
                             text = stringResource(id = R.string.recent_activity),
-                            style = MaterialTheme.typography.labelLarge.copy(
+                            style = MaterialTheme.typography.titleMedium.copy(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                         )
@@ -106,7 +106,7 @@ fun HomeScreen(
                         ) {
                             Text(
                                 text = stringResource(id = R.string.all),
-                                style = MaterialTheme.typography.bodyMedium.copy(
+                                style = MaterialTheme.typography.titleMedium.copy(
                                     color = MaterialTheme.colorScheme.primary
                                 )
                             )

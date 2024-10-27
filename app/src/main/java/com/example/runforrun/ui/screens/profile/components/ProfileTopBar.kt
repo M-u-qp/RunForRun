@@ -118,7 +118,7 @@ fun ProfileTopBar(
             ) {
                 Text(
                     text = stringResource(id = R.string.profile),
-                    style = MaterialTheme.typography.titleSmall.copy(
+                    style = MaterialTheme.typography.titleLarge.copy(
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 )
