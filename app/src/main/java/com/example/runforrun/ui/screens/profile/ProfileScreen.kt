@@ -22,6 +22,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -33,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.runforrun.R
+import com.example.runforrun.ui.screens.profile.components.OurContactsDialog
 import com.example.runforrun.ui.screens.profile.components.ProfileSettingsItem
 import com.example.runforrun.ui.screens.profile.components.ProfileTopBar
 import com.example.runforrun.ui.screens.profile.components.ProgressCard
@@ -50,6 +54,7 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val unlockedAchievements by viewModel.unlockedAchievements.collectAsStateWithLifecycle()
     val selectedAchievements by viewModel.selectedAchievements.collectAsStateWithLifecycle()
+    var isVisibleContactsDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
         viewModel.getSelectedAchievements()
@@ -129,7 +134,9 @@ fun ProfileScreen(
                 title = stringResource(id = R.string.achievements)
             )
             ProfileSettingsItem(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { isVisibleContactsDialog = true },
                 image = ImageBitmap.imageResource(id = R.drawable.phone),
                 title = stringResource(id = R.string.our_contacts)
             )
@@ -147,5 +154,14 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.padding(paddingValues = paddingValues))
         }
+    }
+
+    if (isVisibleContactsDialog) {
+        val email = stringResource(id = R.string.email)
+        OurContactsDialog(
+            writeToEmail = { viewModel.writeEmail(context, email) },
+            onDismiss = { isVisibleContactsDialog = !isVisibleContactsDialog },
+            email = email
+        )
     }
 }

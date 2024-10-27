@@ -1,6 +1,7 @@
 package com.example.runforrun.ui.screens.profile
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -147,5 +148,14 @@ class ProfileViewModel @Inject constructor(
             }
         }
         return selectedAchievements.value
+    }
+
+    fun writeEmail(context: Context, email: String) {
+        Intent(Intent.ACTION_SENDTO).also {
+            it.data = Uri.parse("mailto:$email")
+            if (it.resolveActivity(context.packageManager) != null) {
+                context.startActivity(it)
+            }
+        }
     }
 }
