@@ -128,10 +128,8 @@ dependencies {
     //Timber
     implementation(libs.timber)
 
-    //vico
-    implementation(libs.vico.compose)
-    implementation(libs.vico.compose.m3)
-    implementation(libs.vico.core)
+    //koala
+    implementation(libs.koalaplot.core)
 
 }
 

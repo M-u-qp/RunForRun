@@ -1,12 +1,9 @@
 package com.example.runforrun.ui.screens.statistics
 
-import com.example.runforrun.data.model.Run
-import java.util.Date
-
 data class RunningStatisticsState(
-    val runList: List<Run>,
-    val dateRange: ClosedRange<Date>,
-    val statistic: Statistic,
+    val totalDistance: Long = 0L,
+    val totalDuration: Long = 0L,
+    val totalCaloriesBurned: Long = 0L
 ) {
     enum class Statistic {
         DISTANCE,
