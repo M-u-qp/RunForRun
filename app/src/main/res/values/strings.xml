@@ -50,6 +50,8 @@
     <string name="running_was">Пробег составил</string>
     <string name="took_time">Занял по времени</string>
     <string name="calories_burned">Сожжено калорий</string>
+    <string name="distance">Расстояние</string>
+    <string name="duration">Продолжительность</string>
     <string name="km_10">Вам нужно пробежать 10км</string>
     <string name="km_30">Вам нужно пробежать 30км</string>
     <string name="km_50">Вам нужно пробежать 50км</string>
@@ -61,4 +63,7 @@
     <string name="email">muqpu4eckui@gmail.com</string>
     <string name="contact_email">Вы можете с нами связаться по почте</string>
     <string name="no_more_runs_this_year">В текущем году больше пробежек не было</string>
+    
+    <string name="week">Неделя</string>
+
 </resources>
