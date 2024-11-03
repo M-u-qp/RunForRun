@@ -1,15 +1,13 @@
 package com.example.runforrun.ui.screens.statistics
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,13 +45,11 @@ fun RunningStatisticsScreen(
                 title = stringResource(id = R.string.statistics)
             )
         }) { paddingValues ->
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues)
                 .padding(20.dp)
-                .verticalScroll(state = rememberScrollState())
         ) {
             Text(
                 modifier = Modifier.padding(bottom = 6.dp),
@@ -61,19 +57,29 @@ fun RunningStatisticsScreen(
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.size(20.dp))
-            if (state.totalDistance != 0f)
+            if (state.totalDistance != 0f) {
                 RunningGraph(
                     onNextWeek = { viewModel.switchToNextWeek() },
                     onPreviousWeek = { viewModel.switchToPreviousWeek(context) },
                     currentWeekLabel = viewModel.getCurrentWeekLabel(),
-                    selectedStatistic = state.selectedStatistic,
                     onStatisticSelected = { selectStatistic ->
                         viewModel.selectStatistic(
                             selectStatistic
                         )
                     },
-                    state = state
+                    state = state,
+                    thumbnail = false
                 )
+            } else {
+                RunningGraph(
+                    onNextWeek = {},
+                    onPreviousWeek = {},
+                    currentWeekLabel = viewModel.getCurrentWeekLabel(),
+                    onStatisticSelected = {},
+                    state = state,
+                    thumbnail = true
+                )
+            }
         }
     }
 }
@@ -84,12 +90,14 @@ private fun RunningGraph(
     onPreviousWeek: () -> Unit,
     onNextWeek: () -> Unit,
     currentWeekLabel: String,
-    selectedStatistic: RunningStatisticsState.Statistic,
     onStatisticSelected: (RunningStatisticsState.Statistic) -> Unit,
-    state: RunningStatisticsState
+    state: RunningStatisticsState,
+    thumbnail: Boolean
 ) {
+
     Column(
-        modifier = modifier
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -116,37 +124,42 @@ private fun RunningGraph(
         }
         Surface(
             modifier = Modifier
-                .height(600.dp)
+                .weight(1f)
                 .padding(padding),
-            shadowElevation = 2.dp
+            tonalElevation = 2.dp,
+            shape = MaterialTheme.shapes.medium,
+            border = BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary
+            )
         ) {
-            when (selectedStatistic) {
+            when (state.selectedStatistic) {
                 RunningStatisticsState.Statistic.DISTANCE -> {
                     XYLinePlot(
-                        thumbnail = false,
-                        selectedStatistic = selectedStatistic,
-                        dailyData = state.dailyDistances,
-                        maxData = state.totalDistance,
+                        thumbnail = thumbnail,
+                        selectedStatistic = if (!thumbnail) state.selectedStatistic else RunningStatisticsState.Statistic.DISTANCE,
+                        dailyData = if (!thumbnail) state.dailyDistances else listOf(),
+                        maxData = if (!thumbnail) state.totalDistance else 0.0f,
                         onStatisticSelected = onStatisticSelected
                     )
                 }
 
                 RunningStatisticsState.Statistic.DURATION -> {
                     XYLinePlot(
-                        thumbnail = false,
-                        selectedStatistic = selectedStatistic,
-                        dailyData = state.dailyDurations,
-                        maxData = state.totalDuration,
+                        thumbnail = thumbnail,
+                        selectedStatistic = if (!thumbnail) state.selectedStatistic else RunningStatisticsState.Statistic.DURATION,
+                        dailyData = if (!thumbnail) state.dailyDurations else listOf(),
+                        maxData = if (!thumbnail) state.totalDuration else 0.0f,
                         onStatisticSelected = onStatisticSelected
                     )
                 }
 
                 RunningStatisticsState.Statistic.CALORIES -> {
                     XYLinePlot(
-                        thumbnail = false,
-                        selectedStatistic = selectedStatistic,
-                        dailyData = state.dailyCalories,
-                        maxData = state.totalCaloriesBurned,
+                        thumbnail = thumbnail,
+                        selectedStatistic = if (!thumbnail) state.selectedStatistic else RunningStatisticsState.Statistic.CALORIES,
+                        dailyData = if (!thumbnail) state.dailyCalories else listOf(),
+                        maxData = if (!thumbnail) state.totalCaloriesBurned else 0.0f,
                         onStatisticSelected = onStatisticSelected
                     )
                 }

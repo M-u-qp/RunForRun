@@ -32,6 +32,7 @@ class RunningStatisticsViewModel @Inject constructor(
         loadCurrentWeekStatistics()
     }
 
+    //Загрузка из БД данных за текущую неделю
     private fun loadCurrentWeekStatistics() {
         viewModelScope.launch {
             val distances = mutableListOf<Float>()
@@ -60,10 +61,12 @@ class RunningStatisticsViewModel @Inject constructor(
         }
     }
 
+    //Выбор категории статистики(расстояние, длительность, сожженные калории)
     fun selectStatistic(statistic: RunningStatisticsState.Statistic) {
         _state.value = _state.value.copy(selectedStatistic = statistic)
     }
 
+    //Смена на предыдущую неделю для графика
     fun switchToPreviousWeek(context: Context) {
         val previousWeekStart = Date(currentWeekStart.time - 7 * 24 * 60 * 60 * 1000)
         val previousWeekEnd = Date(currentWeekEnd.time - 7 * 24 * 60 * 60 * 1000)
@@ -82,6 +85,7 @@ class RunningStatisticsViewModel @Inject constructor(
 
     }
 
+    //Смена на следующую неделю для графика
     fun switchToNextWeek() {
         val nextWeekStart = Date(currentWeekStart.time + 7 * 24 * 60 * 60 * 1000)
         val nextWeekEnd = Date(currentWeekEnd.time + 7 * 24 * 60 * 60 * 1000)
@@ -92,6 +96,7 @@ class RunningStatisticsViewModel @Inject constructor(
         }
     }
 
+    //Начало недели
     private fun getStartOfWeek(date: Date): Date {
         val calendar = Calendar.getInstance().apply {
             time = date
@@ -104,6 +109,7 @@ class RunningStatisticsViewModel @Inject constructor(
         return calendar.time
     }
 
+    //Конец недели
     private fun getEndOfWeek(date: Date): Date {
         val calendar = Calendar.getInstance().apply {
             time = date
@@ -116,6 +122,7 @@ class RunningStatisticsViewModel @Inject constructor(
         return calendar.time
     }
 
+    //Текущий год
     private fun getDataOfCurrentYear(date: Date): Date {
         val calendar = Calendar.getInstance().apply {
             time = date
@@ -129,6 +136,7 @@ class RunningStatisticsViewModel @Inject constructor(
         return calendar.time
     }
 
+    //Получение диапазона дат текущей недели для показа
     fun getCurrentWeekLabel(): String {
         val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
         val start = dateFormat.format(currentWeekStart)

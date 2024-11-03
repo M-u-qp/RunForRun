@@ -1,6 +1,8 @@
 package com.example.runforrun.ui.screens.statistics.components
 
 import android.content.Context
+import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,6 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -71,27 +77,34 @@ fun XYLinePlot(
         XYGraph(
             xAxisModel = CategoryAxisModel(DaysOfWeek.getDaysOfWeek()),
             yAxisModel =
-            when (selectedStatistic) {
-                RunningStatisticsState.Statistic.DISTANCE -> {
-                    FloatLinearAxisModel(
-                        0f..(ceil(maxData / 10.0) * 10.0).toFloat(),
-                        minimumMajorTickSpacing = 50.dp
-                    )
-                }
+            if (!thumbnail) {
+                when (selectedStatistic) {
+                    RunningStatisticsState.Statistic.DISTANCE -> {
+                        FloatLinearAxisModel(
+                            0f..(ceil(maxData / 10.0) * 10.0).toFloat(),
+                            minimumMajorTickSpacing = 50.dp
+                        )
+                    }
 
-                RunningStatisticsState.Statistic.DURATION -> {
-                    FloatLinearAxisModel(
-                        0f..(ceil(maxData / 5.0) * 5.0).toFloat(),
-                        minimumMajorTickSpacing = 50.dp
-                    )
-                }
+                    RunningStatisticsState.Statistic.DURATION -> {
+                        FloatLinearAxisModel(
+                            0f..(ceil(maxData / 5.0) * 5.0).toFloat(),
+                            minimumMajorTickSpacing = 50.dp
+                        )
+                    }
 
-                RunningStatisticsState.Statistic.CALORIES -> {
-                    FloatLinearAxisModel(
-                        0f..(ceil(maxData / 500.0) * 500.0).toFloat(),
-                        minimumMajorTickSpacing = 50.dp
-                    )
+                    RunningStatisticsState.Statistic.CALORIES -> {
+                        FloatLinearAxisModel(
+                            0f..(ceil(maxData / 500.0) * 500.0).toFloat(),
+                            minimumMajorTickSpacing = 50.dp
+                        )
+                    }
                 }
+            } else {
+                FloatLinearAxisModel(
+                    0f..(ceil(10.0 / 50.0) * 50.0).toFloat(),
+                    minimumMajorTickSpacing = 50.dp,
+                )
             },
             xAxisLabels = {
                 if (!thumbnail) {
@@ -102,7 +115,7 @@ fun XYLinePlot(
                 if (!thumbnail) {
                     Box(
                         modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.BottomEnd
                     ) {
                         val week = stringResource(id = R.string.week)
                         AxisTitle(week)
@@ -155,7 +168,7 @@ fun XYLinePlot(
                 data = dailyData.mapIndexed { index, value ->
                     DefaultPoint(DaysOfWeek.getDaysOfWeek()[index], value)
                 },
-                thumbnail
+                thumbnail = thumbnail
             )
         }
     }
@@ -169,6 +182,9 @@ private fun XYGraphScope<String, Float>.Chart(
     thumbnail: Boolean
 ) {
     val color = colorMap[selectedStatistic] ?: Color.Black
+    var isVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
     LinePlot(
         data = data,
         lineStyle = LineStyle(
@@ -179,20 +195,13 @@ private fun XYGraphScope<String, Float>.Chart(
             Symbol(
                 shape = CircleShape,
                 fillBrush = SolidColor(color),
-                modifier = Modifier.then(
-                    if (!thumbnail) {
-                        Modifier.hoverableElement {
-                            HoverSurface {
-                                Text(
-                                    text = point.y.toString(),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                            }
+                modifier = Modifier
+                    .clickable {
+                        isVisible = !isVisible
+                        if (!thumbnail && isVisible) {
+                            Toast.makeText(context, "${point.y}", Toast.LENGTH_SHORT).show()
                         }
-                    } else {
-                        Modifier
                     }
-                )
             )
         }
     )
@@ -205,8 +214,9 @@ private fun Legend(
     onStatisticSelected: (RunningStatisticsState.Statistic) -> Unit,
     context: Context
 ) {
-    val statistics = RunningStatisticsState.Statistic.entries
     if (!thumbnail) {
+        val statistics = RunningStatisticsState.Statistic.entries
+
         FlowLegend(
             itemCount = statistics.size,
             symbol = { i ->
