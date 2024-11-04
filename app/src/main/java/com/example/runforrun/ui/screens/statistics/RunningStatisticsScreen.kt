@@ -57,7 +57,7 @@ fun RunningStatisticsScreen(
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.size(20.dp))
-            if (state.totalDistance != 0f) {
+            if (state.totalDistance != 0L) {
                 RunningGraph(
                     onNextWeek = { viewModel.switchToNextWeek() },
                     onPreviousWeek = { viewModel.switchToPreviousWeek(context) },
@@ -139,7 +139,7 @@ private fun RunningGraph(
                         thumbnail = thumbnail,
                         selectedStatistic = if (!thumbnail) state.selectedStatistic else RunningStatisticsState.Statistic.DISTANCE,
                         dailyData = if (!thumbnail) state.dailyDistances else listOf(),
-                        maxData = if (!thumbnail) state.totalDistance else 0.0f,
+                        maxData = if (!thumbnail) state.totalDistance else 0L,
                         onStatisticSelected = onStatisticSelected
                     )
                 }
@@ -149,7 +149,7 @@ private fun RunningGraph(
                         thumbnail = thumbnail,
                         selectedStatistic = if (!thumbnail) state.selectedStatistic else RunningStatisticsState.Statistic.DURATION,
                         dailyData = if (!thumbnail) state.dailyDurations else listOf(),
-                        maxData = if (!thumbnail) state.totalDuration else 0.0f,
+                        maxData = if (!thumbnail) state.totalDuration else 0L,
                         onStatisticSelected = onStatisticSelected
                     )
                 }
@@ -159,7 +159,7 @@ private fun RunningGraph(
                         thumbnail = thumbnail,
                         selectedStatistic = if (!thumbnail) state.selectedStatistic else RunningStatisticsState.Statistic.CALORIES,
                         dailyData = if (!thumbnail) state.dailyCalories else listOf(),
-                        maxData = if (!thumbnail) state.totalCaloriesBurned else 0.0f,
+                        maxData = if (!thumbnail) state.totalCaloriesBurned else 0L,
                         onStatisticSelected = onStatisticSelected
                     )
                 }

@@ -4,12 +4,12 @@ import android.content.Context
 import com.example.runforrun.R
 
 data class RunningStatisticsState(
-    val dailyDistances: List<Float> = List(7) { 0f },
-    val dailyDurations: List<Float> = List(7) { 0f },
-    val dailyCalories: List<Float> = List(7) { 0f },
-    val totalDistance: Float = 0f,
-    val totalDuration: Float = 0f,
-    val totalCaloriesBurned: Float = 0f,
+    val dailyDistances: List<Long> = List(7) { 0L },
+    val dailyDurations: List<Long> = List(7) { 0L },
+    val dailyCalories: List<Long> = List(7) { 0L },
+    val totalDistance: Long = 0L,
+    val totalDuration: Long = 0L,
+    val totalCaloriesBurned: Long = 0L,
     val selectedStatistic: Statistic = Statistic.DISTANCE
 ) {
     enum class Statistic {

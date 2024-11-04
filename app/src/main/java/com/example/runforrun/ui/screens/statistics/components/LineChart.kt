@@ -1,15 +1,17 @@
 package com.example.runforrun.ui.screens.statistics.components
 
 import android.content.Context
-import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -21,11 +23,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.runforrun.R
+import com.example.runforrun.common.extension.toDurationInSeconds
+import com.example.runforrun.common.utils.FormatterUts.getFormattedTime
 import com.example.runforrun.ui.screens.statistics.RunningStatisticsState
 import io.github.koalaplot.core.ChartLayout
 import io.github.koalaplot.core.Symbol
@@ -56,8 +63,8 @@ private val colorMap = buildMap {
 fun XYLinePlot(
     thumbnail: Boolean,
     selectedStatistic: RunningStatisticsState.Statistic,
-    dailyData: List<Float>,
-    maxData: Float,
+    dailyData: List<Long>,
+    maxData: Long,
     onStatisticSelected: (RunningStatisticsState.Statistic) -> Unit
 ) {
     val context = LocalContext.current
@@ -81,14 +88,14 @@ fun XYLinePlot(
                 when (selectedStatistic) {
                     RunningStatisticsState.Statistic.DISTANCE -> {
                         FloatLinearAxisModel(
-                            0f..(ceil(maxData / 10.0) * 10.0).toFloat(),
+                            0f..(ceil(maxData / 1000.0 / 10.0) * 10.0).toFloat(),
                             minimumMajorTickSpacing = 50.dp
                         )
                     }
 
                     RunningStatisticsState.Statistic.DURATION -> {
                         FloatLinearAxisModel(
-                            0f..(ceil(maxData / 5.0) * 5.0).toFloat(),
+                            0f..(ceil(maxData.toDurationInSeconds() / 100.0 / 10) * 10).toFloat(),
                             minimumMajorTickSpacing = 50.dp
                         )
                     }
@@ -178,33 +185,100 @@ fun XYLinePlot(
 @Composable
 private fun XYGraphScope<String, Float>.Chart(
     selectedStatistic: RunningStatisticsState.Statistic,
-    data: List<DefaultPoint<String, Float>>,
+    data: List<DefaultPoint<String, Long>>,
     thumbnail: Boolean
 ) {
     val color = colorMap[selectedStatistic] ?: Color.Black
     var isVisible by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+    val formattedData = remember { mutableStateOf<List<DefaultPoint<String, Float>>>(emptyList()) }
 
-    LinePlot(
-        data = data,
-        lineStyle = LineStyle(
-            brush = SolidColor(color),
-            strokeWidth = 2.dp
-        ),
-        symbol = { point ->
-            Symbol(
-                shape = CircleShape,
-                fillBrush = SolidColor(color),
-                modifier = Modifier
-                    .clickable {
-                        isVisible = !isVisible
-                        if (!thumbnail && isVisible) {
-                            Toast.makeText(context, "${point.y}", Toast.LENGTH_SHORT).show()
+    when (selectedStatistic) {
+        RunningStatisticsState.Statistic.DISTANCE -> {
+            formattedData.value = data.map { point ->
+                DefaultPoint(x = point.x, y = point.y / 1000f)
+            }
+        }
+
+        RunningStatisticsState.Statistic.DURATION -> {
+            formattedData.value = data.map { point ->
+                DefaultPoint(
+                    x = point.x, y = point.y.toDurationInSeconds()
+                )
+            }
+        }
+
+        RunningStatisticsState.Statistic.CALORIES -> {
+            formattedData.value = data.map { point ->
+                DefaultPoint(x = point.x, y = point.y.toFloat())
+            }
+        }
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
+        LinePlot(
+            modifier = Modifier.fillMaxSize(),
+            data = formattedData.value,
+            lineStyle = LineStyle(
+                brush = SolidColor(color),
+                strokeWidth = 3.dp,
+                pathEffect = PathEffect.cornerPathEffect(30f)
+            ),
+            symbol = {
+                if (!thumbnail) {
+                    if (isVisible) {
+                        if (selectedStatistic == RunningStatisticsState.Statistic.DURATION) {
+                            data.forEach { point ->
+                                if (point.y != 0L) {
+                                    Text(
+                                        text = getFormattedTime(point.y),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        modifier = Modifier.offset(y = (-10).dp, x = (-10).dp)
+                                    )
+                                } else {
+                                    Symbol(
+                                        shape = CircleShape,
+                                        fillBrush = SolidColor(color),
+                                        modifier = Modifier
+                                    )
+                                }
+                            }
+                        } else {
+                            formattedData.value.forEach { point ->
+                                if (point.y != 0.0f) {
+                                    Text(
+                                        text = point.y.toString(),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        modifier = Modifier.offset(y = (-10).dp, x = (-10).dp)
+                                    )
+                                } else {
+                                    Symbol(
+                                        shape = CircleShape,
+                                        fillBrush = SolidColor(color),
+                                        modifier = Modifier
+                                    )
+                                }
+                            }
                         }
+                    } else {
+                        Symbol(
+                            shape = CircleShape,
+                            fillBrush = SolidColor(color),
+                            modifier = Modifier
+                        )
                     }
+                }
+            }
+        )
+        IconButton(
+            modifier = Modifier.align(Alignment.TopEnd),
+            onClick = { isVisible = !isVisible }
+        ) {
+            Icon(
+                bitmap = ImageBitmap.imageResource(R.drawable.about),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
             )
         }
-    )
+    }
 }
 
 @OptIn(ExperimentalKoalaPlotApi::class)

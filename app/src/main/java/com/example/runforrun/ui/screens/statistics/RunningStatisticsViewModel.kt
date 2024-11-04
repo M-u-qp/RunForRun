@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -35,19 +34,17 @@ class RunningStatisticsViewModel @Inject constructor(
     //Загрузка из БД данных за текущую неделю
     private fun loadCurrentWeekStatistics() {
         viewModelScope.launch {
-            val distances = mutableListOf<Float>()
-            val durations = mutableListOf<Float>()
-            val calories = mutableListOf<Float>()
+            val distances = mutableListOf<Long>()
+            val durations = mutableListOf<Long>()
+            val calories = mutableListOf<Long>()
 
             for (i in 0 until 7) {
                 val dayStart = Date(currentWeekStart.time + i * 24 * 60 * 60 * 1000)
                 val dayEnd = Date(dayStart.time + 24 * 60 * 60 * 1000 - 1)
 
-                distances.add(repository.getTotalDistance(dayStart, dayEnd).first() / 1000f)
-                durations.add(repository.getTotalDuration(dayStart, dayEnd).first().toBigDecimal()
-                    .divide((3_600_000).toBigDecimal(), 2, RoundingMode.HALF_UP)
-                    .toFloat())
-                calories.add(repository.getTotalCaloriesBurned(dayStart, dayEnd).first().toFloat())
+                distances.add(repository.getTotalDistance(dayStart, dayEnd).first())
+                durations.add(repository.getTotalDuration(dayStart, dayEnd).first())
+                calories.add(repository.getTotalCaloriesBurned(dayStart, dayEnd).first())
             }
 
             _state.value = RunningStatisticsState(
