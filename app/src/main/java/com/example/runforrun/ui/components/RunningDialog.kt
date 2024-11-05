@@ -2,6 +2,7 @@ package com.example.runforrun.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -53,11 +55,19 @@ fun RunningDialog(
                 color = MaterialTheme.colorScheme.surface,
                 shape = MaterialTheme.shapes.large
             )
+            .border(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.primary,
+                shape = MaterialTheme.shapes.large
+            )
     ) {
         Column(
             modifier = Modifier.clip(shape = MaterialTheme.shapes.large)
         ) {
             RunningRouteImage(
+                modifier = Modifier
+                    .padding(horizontal = 4.dp)
+                    .padding(top = 4.dp),
                 run = run,
                 dismiss = dismiss,
                 delete = delete,
@@ -109,7 +119,8 @@ private fun RunningRouteImage(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f),
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
             contentScale = ContentScale.Crop
         )
         IconButton(
